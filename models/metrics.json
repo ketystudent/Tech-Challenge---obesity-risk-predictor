@@ -1,0 +1,38 @@
+{
+  "accuracy": 0.9808612440191388,
+  "precision_macro": 0.9815463717842616,
+  "recall_macro": 0.9803476475193177,
+  "f1_macro": 0.9804487436254502,
+  "has_probabilities": true,
+  "winner": "RandomForest",
+  "include_bmi": true,
+  "comparison": [
+    {
+      "model": "RandomForest",
+      "accuracy_mean": 0.9814245383107659,
+      "accuracy_std": 0.0058108500133033985,
+      "f1_macro_mean": 0.9803129056916834,
+      "f1_macro_std": 0.006295015798590508,
+      "precision_macro_mean": 0.9813109906787343,
+      "recall_macro_mean": 0.9801511855124236
+    },
+    {
+      "model": "ExtraTrees",
+      "accuracy_mean": 0.9472712233191276,
+      "accuracy_std": 0.009962672288241443,
+      "f1_macro_mean": 0.9454040114559723,
+      "f1_macro_std": 0.010544830941833583,
+      "precision_macro_mean": 0.9475862685322683,
+      "recall_macro_mean": 0.9452741496345946
+    },
+    {
+      "model": "LogisticRegression",
+      "accuracy_mean": 0.8903436370502238,
+      "accuracy_std": 0.020419727475694704,
+      "f1_macro_mean": 0.8857813758055721,
+      "f1_macro_std": 0.021608373730036583,
+      "precision_macro_mean": 0.8867438627135711,
+      "recall_macro_mean": 0.8873288417240695
+    }
+  ]
+}

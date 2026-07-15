@@ -1,0 +1,219 @@
+Plano de Execução – Challenge 4 Pós Tech FIAP
+Predição de Nível de Obesidade
+Prazo Final
+
+Entrega: 27/07
+
+Meta interna da equipe: 25/07
+
+Os dias 26 e 27/07 ficarão reservados exclusivamente para correções de bugs, ajustes de deploy e contingências.
+
+Objetivo
+
+Desenvolver uma aplicação de Machine Learning capaz de prever o nível de obesidade de um indivíduo a partir de dados de saúde e hábitos de vida.
+
+A solução deverá contemplar:
+
+análise exploratória dos dados;
+desenvolvimento do modelo de Machine Learning;
+dashboard analítico;
+aplicação preditiva em Streamlit;
+deploy em ambiente público;
+documentação completa;
+vídeo de apresentação.
+Arquitetura do Projeto
+Dataset
+    │
+    ▼
+EDA
+    │
+    ▼
+Pré-processamento
+    │
+    ▼
+Pipeline Scikit-Learn
+    │
+    ▼
+Modelo Treinado
+    │
+    ▼
+Arquivo .joblib
+    │
+    ▼
+Aplicação Streamlit
+    │
+    ├── Dashboard
+    ├── Predição
+    └── Informações do Modelo
+    │
+    ▼
+Deploy
+Organização do Repositório
+obesity-ml/
+
+app/
+pages/
+assets/
+
+data/
+
+models/
+
+notebooks/
+
+src/
+
+tests/
+
+.github/workflows/
+
+requirements.txt
+Dockerfile
+README.md
+Divisão das Responsabilidades
+Pessoa 1 — Análise de Dados e Negócio
+
+Responsável por compreender o dataset e gerar insights.
+
+Atividades
+exploração dos dados;
+tratamento inicial;
+análise de valores ausentes;
+análise de duplicidades;
+estatísticas descritivas;
+análise de correlação;
+gráficos exploratórios;
+identificação dos principais fatores relacionados à obesidade;
+documentação dos insights.
+Entregáveis
+Notebook EDA
+Dataset validado
+Insights para dashboard
+Pessoa 2 — Machine Learning
+
+Responsável pelo desenvolvimento do modelo.
+
+Atividades
+divisão treino/teste;
+Pipeline com ColumnTransformer;
+comparação entre modelos;
+validação cruzada;
+otimização de hiperparâmetros;
+métricas;
+matriz de confusão;
+serialização da Pipeline.
+Entregáveis
+pipeline.joblib
+notebook de modelagem
+métricas finais
+Pessoa 3 — Aplicação Streamlit
+
+Responsável pelo sistema de predição.
+
+Atividades
+interface;
+formulário;
+integração com pipeline;
+validação dos dados;
+exibição das previsões;
+deploy;
+Docker (caso haja tempo).
+Entregáveis
+aplicação funcionando
+deploy online
+Pessoa 4 — Dashboard e Documentação
+
+Responsável pela entrega final.
+
+Atividades
+dashboard;
+README;
+GitHub;
+documentação;
+roteiro do vídeo;
+organização da entrega.
+Entregáveis
+dashboard final
+README completo
+vídeo
+arquivo contendo os links da entrega
+
+
+Organização das Branches
+main
+
+develop
+
+feature/eda
+
+feature/model
+
+feature/streamlit
+
+feature/dashboard
+
+feature/documentation
+
+Nenhuma alteração deverá ser realizada diretamente na main.
+
+Todo desenvolvimento deverá passar por Pull Request.
+
+Ferramentas
+Ferramenta	Objetivo
+GitHub	Versionamento
+VS Code	Desenvolvimento
+Scikit-Learn	Modelagem
+Pandas	Manipulação
+Plotly	Dashboard
+Streamlit	Aplicação
+Joblib	Serialização
+Docker	Diferencial
+GitHub Projects	Gestão das tarefas
+Critérios de Aceite
+
+O projeto somente será considerado concluído quando:
+
+Modelo apresentar desempenho satisfatório (meta ≥ 75% de acurácia, ou outra métrica adequada à classificação multiclasse, como F1-macro).
+Pipeline completa estiver serializada.
+Aplicação Streamlit funcionando.
+Dashboard analítico disponível.
+Deploy público acessível.
+README completo.
+Código organizado.
+Repositório atualizado.
+Vídeo gravado.
+Links da entrega funcionando.
+Comunicação
+
+Será realizado acompanhamento diário pelo grupo.
+
+Cada integrante deverá informar:
+
+o que foi concluído;
+o que está em andamento;
+impedimentos.
+
+Caso alguma atividade fique bloqueada por mais de um dia, ela deverá ser redistribuída para evitar impacto no cronograma.
+
+Prioridade de Desenvolvimento
+
+A ordem de prioridade será:
+
+Modelo de Machine Learning
+Pipeline de pré-processamento
+Aplicação Streamlit
+Deploy
+Dashboard
+Documentação
+Vídeo
+Docker (diferencial)
+Objetivo Final
+
+Até 25/07, a equipe deverá ter uma solução completa, reproduzível e publicada, contendo:
+
+análise de dados consistente;
+modelo de Machine Learning integrado a uma pipeline;
+aplicação interativa para predição;
+dashboard com insights do negócio;
+documentação clara;
+deploy público funcional.

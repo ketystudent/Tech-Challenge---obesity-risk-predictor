@@ -1,0 +1,15 @@
+{
+  "created_at": "2026-07-14T00:24:55.552696+00:00",
+  "target": "Obesity",
+  "classes": [
+    "Insufficient_Weight",
+    "Normal_Weight",
+    "Obesity_Type_I",
+    "Obesity_Type_II",
+    "Obesity_Type_III",
+    "Overweight_Level_I",
+    "Overweight_Level_II"
+  ],
+  "model_name": "RandomForest",
+  "include_bmi": true
+}
