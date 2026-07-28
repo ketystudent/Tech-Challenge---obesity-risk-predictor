@@ -15,6 +15,10 @@ FINAL_PIPELINE_PATH = MODELS_DIR / "final_pipeline.joblib"
 LABEL_ENCODER_PATH = MODELS_DIR / "label_encoder.joblib"
 METRICS_PATH = MODELS_DIR / "metrics.json"
 MODEL_METADATA_PATH = MODELS_DIR / "model_metadata.json"
+TUNED_PIPELINE_PATH = MODELS_DIR / "tuned_pipeline.joblib"
+TUNED_LABEL_ENCODER_PATH = MODELS_DIR / "tuned_label_encoder.joblib"
+TUNED_METRICS_PATH = MODELS_DIR / "tuned_metrics.json"
+TUNED_MODEL_METADATA_PATH = MODELS_DIR / "tuned_model_metadata.json"
 
 CLASS_ORDER = [
     "Insufficient_Weight",
@@ -51,3 +55,17 @@ EXPECTED_COLUMNS = NUMERIC_COLUMNS + CATEGORICAL_COLUMNS + [TARGET_COLUMN]
 
 YES_NO_COLUMNS = ["family_history", "FAVC", "SMOKE", "SCC"]
 
+ENGINEERED_NUMERIC_COLUMNS = [
+    "BMI",
+    "Active_Lifestyle",
+    "Healthy_Diet",
+    "Good_Hydration",
+    "High_Screen_Time",
+    "Healthy_Score",
+]
+
+ENGINEERED_CATEGORICAL_COLUMNS = [
+    "Faixa_Etaria",
+    "BMI_Class",
+    "Weight_Class",
+]

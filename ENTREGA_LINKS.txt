@@ -1,0 +1,16 @@
+Tech Challenge - Obesity Risk Predictor
+
+App Streamlit:
+TODO
+
+Dashboard analitico:
+TODO
+
+Repositorio GitHub:
+https://github.com/ketystudent/Tech-Challenge---obesity-risk-predictor
+
+Video de apresentacao:
+TODO
+
+Observacoes:
+O dashboard analitico esta dentro do proprio app Streamlit, na pagina "Visao Analitica".

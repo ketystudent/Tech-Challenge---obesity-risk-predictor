@@ -1,0 +1,4 @@
+scenario,scenario_description,model,accuracy_mean,accuracy_std,f1_macro_mean,f1_macro_std,precision_macro_mean,recall_macro_mean
+full_current,Pipeline atual com variaveis originais e features derivadas.,RandomForest,0.9870618337865593,0.005983998071708554,0.9867504432499661,0.006322689885919455,0.9871805455107289,0.9867181009840703
+no_derived_redundant,Mantem colunas originais e remove features derivadas redundantes.,GradientBoosting,0.9640769680905994,0.01342258999687225,0.9626814074425007,0.013863269996123709,0.963670931395342,0.9625616489443158
+preventive_behavioral,Remove peso e derivados antropometricos para estimar um modelo mais preventivo/comportamental.,RandomForest,0.8806822484596054,0.008590769331349522,0.8790878517528332,0.009605219239083898,0.8840175042695236,0.8772270808442639

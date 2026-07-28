@@ -1,0 +1,239 @@
+{
+  "full_current": [
+    {
+      "scenario": "full_current",
+      "scenario_description": "Pipeline atual com variaveis originais e features derivadas.",
+      "model": "RandomForest",
+      "accuracy_mean": 0.9870618337865593,
+      "accuracy_std": 0.005983998071708554,
+      "f1_macro_mean": 0.9867504432499661,
+      "f1_macro_std": 0.006322689885919455,
+      "precision_macro_mean": 0.9871805455107289,
+      "recall_macro_mean": 0.9867181009840703
+    },
+    {
+      "scenario": "full_current",
+      "scenario_description": "Pipeline atual com variaveis originais e features derivadas.",
+      "model": "ExtraTrees",
+      "accuracy_mean": 0.9822679655318808,
+      "accuracy_std": 0.007821908870801291,
+      "f1_macro_mean": 0.9815731533238795,
+      "f1_macro_std": 0.008367404107040025,
+      "precision_macro_mean": 0.9819160535486573,
+      "recall_macro_mean": 0.9814980254930588
+    },
+    {
+      "scenario": "full_current",
+      "scenario_description": "Pipeline atual com variaveis originais e features derivadas.",
+      "model": "GradientBoosting",
+      "accuracy_mean": 0.9808325588333162,
+      "accuracy_std": 0.00934447091745843,
+      "f1_macro_mean": 0.980554360552975,
+      "f1_macro_std": 0.009809461647714957,
+      "precision_macro_mean": 0.9812324450066546,
+      "recall_macro_mean": 0.9804480217227095
+    },
+    {
+      "scenario": "full_current",
+      "scenario_description": "Pipeline atual com variaveis originais e features derivadas.",
+      "model": "DecisionTree",
+      "accuracy_mean": 0.9702970637843791,
+      "accuracy_std": 0.011886858358318207,
+      "f1_macro_mean": 0.9697818573218375,
+      "f1_macro_std": 0.012199451897887893,
+      "precision_macro_mean": 0.9703223752669305,
+      "recall_macro_mean": 0.9696293906377125
+    },
+    {
+      "scenario": "full_current",
+      "scenario_description": "Pipeline atual com variaveis originais e features derivadas.",
+      "model": "LogisticRegression",
+      "accuracy_mean": 0.9655031955297007,
+      "accuracy_std": 0.009411789481307005,
+      "f1_macro_mean": 0.9641852448682975,
+      "f1_macro_std": 0.00984182177755485,
+      "precision_macro_mean": 0.9649489221308762,
+      "recall_macro_mean": 0.9641424490462857
+    },
+    {
+      "scenario": "full_current",
+      "scenario_description": "Pipeline atual com variaveis originais e features derivadas.",
+      "model": "SVM",
+      "accuracy_mean": 0.9650189895930146,
+      "accuracy_std": 0.011004222096838285,
+      "f1_macro_mean": 0.9637477709119008,
+      "f1_macro_std": 0.011490688819442464,
+      "precision_macro_mean": 0.9644327392282603,
+      "recall_macro_mean": 0.9636886742869484
+    },
+    {
+      "scenario": "full_current",
+      "scenario_description": "Pipeline atual com variaveis originais e features derivadas.",
+      "model": "KNN",
+      "accuracy_mean": 0.9094397209505123,
+      "accuracy_std": 0.0059374841331908245,
+      "f1_macro_mean": 0.9051286133226215,
+      "f1_macro_std": 0.005498423151602008,
+      "precision_macro_mean": 0.9071576175953752,
+      "recall_macro_mean": 0.9066368052411233
+    }
+  ],
+  "no_derived_redundant": [
+    {
+      "scenario": "no_derived_redundant",
+      "scenario_description": "Mantem colunas originais e remove features derivadas redundantes.",
+      "model": "GradientBoosting",
+      "accuracy_mean": 0.9640769680905994,
+      "accuracy_std": 0.01342258999687225,
+      "f1_macro_mean": 0.9626814074425007,
+      "f1_macro_std": 0.013863269996123709,
+      "precision_macro_mean": 0.963670931395342,
+      "recall_macro_mean": 0.9625616489443158
+    },
+    {
+      "scenario": "no_derived_redundant",
+      "scenario_description": "Mantem colunas originais e remove features derivadas redundantes.",
+      "model": "RandomForest",
+      "accuracy_mean": 0.9424999713148141,
+      "accuracy_std": 0.008448363032243928,
+      "f1_macro_mean": 0.9408895965384643,
+      "f1_macro_std": 0.009130218689718748,
+      "precision_macro_mean": 0.9446936903713418,
+      "recall_macro_mean": 0.9402943276562128
+    },
+    {
+      "scenario": "no_derived_redundant",
+      "scenario_description": "Mantem colunas originais e remove features derivadas redundantes.",
+      "model": "DecisionTree",
+      "accuracy_mean": 0.9329294459169507,
+      "accuracy_std": 0.013748455151846906,
+      "f1_macro_mean": 0.9311149599527523,
+      "f1_macro_std": 0.014596655403018112,
+      "precision_macro_mean": 0.9323121332399367,
+      "recall_macro_mean": 0.9308126101726595
+    },
+    {
+      "scenario": "no_derived_redundant",
+      "scenario_description": "Mantem colunas originais e remove features derivadas redundantes.",
+      "model": "SVM",
+      "accuracy_mean": 0.9185501359677808,
+      "accuracy_std": 0.008369886505495111,
+      "f1_macro_mean": 0.9153227863326784,
+      "f1_macro_std": 0.00904317751071523,
+      "precision_macro_mean": 0.9166135906333979,
+      "recall_macro_mean": 0.9152917809110962
+    },
+    {
+      "scenario": "no_derived_redundant",
+      "scenario_description": "Mantem colunas originais e remove features derivadas redundantes.",
+      "model": "ExtraTrees",
+      "accuracy_mean": 0.9137505306759378,
+      "accuracy_std": 0.011632098517808548,
+      "f1_macro_mean": 0.9110718761349756,
+      "f1_macro_std": 0.01219258500279497,
+      "precision_macro_mean": 0.9136381694677231,
+      "recall_macro_mean": 0.9106231660764059
+    },
+    {
+      "scenario": "no_derived_redundant",
+      "scenario_description": "Mantem colunas originais e remove features derivadas redundantes.",
+      "model": "LogisticRegression",
+      "accuracy_mean": 0.8739894209034687,
+      "accuracy_std": 0.009908534928550726,
+      "f1_macro_mean": 0.8687190199347482,
+      "f1_macro_std": 0.010869169428961897,
+      "precision_macro_mean": 0.8720302740862387,
+      "recall_macro_mean": 0.8709839889395926
+    },
+    {
+      "scenario": "no_derived_redundant",
+      "scenario_description": "Mantem colunas originais e remove features derivadas redundantes.",
+      "model": "KNN",
+      "accuracy_mean": 0.8318256399664957,
+      "accuracy_std": 0.013286472926732346,
+      "f1_macro_mean": 0.8121895874236312,
+      "f1_macro_std": 0.01962694222334674,
+      "precision_macro_mean": 0.8277380409823161,
+      "recall_macro_mean": 0.8249273979378733
+    }
+  ],
+  "preventive_behavioral": [
+    {
+      "scenario": "preventive_behavioral",
+      "scenario_description": "Remove peso e derivados antropometricos para estimar um modelo mais preventivo/comportamental.",
+      "model": "RandomForest",
+      "accuracy_mean": 0.8806822484596054,
+      "accuracy_std": 0.008590769331349522,
+      "f1_macro_mean": 0.8790878517528332,
+      "f1_macro_std": 0.009605219239083898,
+      "precision_macro_mean": 0.8840175042695236,
+      "recall_macro_mean": 0.8772270808442639
+    },
+    {
+      "scenario": "preventive_behavioral",
+      "scenario_description": "Remove peso e derivados antropometricos para estimar um modelo mais preventivo/comportamental.",
+      "model": "ExtraTrees",
+      "accuracy_mean": 0.8572017027526304,
+      "accuracy_std": 0.012185914007592344,
+      "f1_macro_mean": 0.8531315624011523,
+      "f1_macro_std": 0.012956182101663669,
+      "precision_macro_mean": 0.8559772329252067,
+      "recall_macro_mean": 0.8525905289673087
+    },
+    {
+      "scenario": "preventive_behavioral",
+      "scenario_description": "Remove peso e derivados antropometricos para estimar um modelo mais preventivo/comportamental.",
+      "model": "GradientBoosting",
+      "accuracy_mean": 0.831339139214944,
+      "accuracy_std": 0.009375409613294963,
+      "f1_macro_mean": 0.8287964197918415,
+      "f1_macro_std": 0.01037298724929958,
+      "precision_macro_mean": 0.8343813059927735,
+      "recall_macro_mean": 0.8274808158220166
+    },
+    {
+      "scenario": "preventive_behavioral",
+      "scenario_description": "Remove peso e derivados antropometricos para estimar um modelo mais preventivo/comportamental.",
+      "model": "SVM",
+      "accuracy_mean": 0.7963696028822874,
+      "accuracy_std": 0.012757724446481091,
+      "f1_macro_mean": 0.7894663345312678,
+      "f1_macro_std": 0.013427698360372374,
+      "precision_macro_mean": 0.793470820570863,
+      "recall_macro_mean": 0.7922591789738564
+    },
+    {
+      "scenario": "preventive_behavioral",
+      "scenario_description": "Remove peso e derivados antropometricos para estimar um modelo mais preventivo/comportamental.",
+      "model": "KNN",
+      "accuracy_mean": 0.7839076107535025,
+      "accuracy_std": 0.008963031310823983,
+      "f1_macro_mean": 0.7588884057783307,
+      "f1_macro_std": 0.013725400849729749,
+      "precision_macro_mean": 0.7844786872793457,
+      "recall_macro_mean": 0.776111348880382
+    },
+    {
+      "scenario": "preventive_behavioral",
+      "scenario_description": "Remove peso e derivados antropometricos para estimar um modelo mais preventivo/comportamental.",
+      "model": "DecisionTree",
+      "accuracy_mean": 0.7613828554381377,
+      "accuracy_std": 0.019569319726550804,
+      "f1_macro_mean": 0.7534593251913295,
+      "f1_macro_std": 0.020602696497609593,
+      "precision_macro_mean": 0.7545201507560283,
+      "recall_macro_mean": 0.7549246409682816
+    },
+    {
+      "scenario": "preventive_behavioral",
+      "scenario_description": "Remove peso e derivados antropometricos para estimar um modelo mais preventivo/comportamental.",
+      "model": "LogisticRegression",
+      "accuracy_mean": 0.6080582424012942,
+      "accuracy_std": 0.013008127451062713,
+      "f1_macro_mean": 0.5834090181845207,
+      "f1_macro_std": 0.014411241967313738,
+      "precision_macro_mean": 0.6047802798560132,
+      "recall_macro_mean": 0.5988428394557404
+    }
+  ]
+}

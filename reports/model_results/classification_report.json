@@ -1,0 +1,57 @@
+{
+  "Insufficient_Weight": {
+    "precision": 0.9811320754716981,
+    "recall": 0.9811320754716981,
+    "f1-score": 0.9811320754716981,
+    "support": 53.0
+  },
+  "Normal_Weight": {
+    "precision": 0.9333333333333333,
+    "recall": 0.9824561403508771,
+    "f1-score": 0.9572649572649573,
+    "support": 57.0
+  },
+  "Obesity_Type_I": {
+    "precision": 0.9722222222222222,
+    "recall": 1.0,
+    "f1-score": 0.9859154929577465,
+    "support": 70.0
+  },
+  "Obesity_Type_II": {
+    "precision": 1.0,
+    "recall": 0.9833333333333333,
+    "f1-score": 0.9915966386554622,
+    "support": 60.0
+  },
+  "Obesity_Type_III": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 65.0
+  },
+  "Overweight_Level_I": {
+    "precision": 1.0,
+    "recall": 0.9090909090909091,
+    "f1-score": 0.9523809523809523,
+    "support": 55.0
+  },
+  "Overweight_Level_II": {
+    "precision": 0.9661016949152542,
+    "recall": 0.9827586206896551,
+    "f1-score": 0.9743589743589743,
+    "support": 58.0
+  },
+  "accuracy": 0.9784688995215312,
+  "macro avg": {
+    "precision": 0.9789699037060726,
+    "recall": 0.9769672969909247,
+    "f1-score": 0.977521298727113,
+    "support": 418.0
+  },
+  "weighted avg": {
+    "precision": 0.9791613728723453,
+    "recall": 0.9784688995215312,
+    "f1-score": 0.9783917662302523,
+    "support": 418.0
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "accuracy": 0.9760765550239234,
+  "precision_macro": 0.9767841113563458,
+  "recall_macro": 0.9743698943935221,
+  "f1_macro": 0.9749233451606364,
+  "confusion_matrix": [
+    [
+      52,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      56,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      70,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      59,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      65,
+      0,
+      0
+    ],
+    [
+      0,
+      4,
+      0,
+      0,
+      0,
+      49,
+      2
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      57
+    ]
+  ],
+  "classification_report": {
+    "Insufficient_Weight": {
+      "precision": 0.9811320754716981,
+      "recall": 0.9811320754716981,
+      "f1-score": 0.9811320754716981,
+      "support": 53.0
+    },
+    "Normal_Weight": {
+      "precision": 0.9180327868852459,
+      "recall": 0.9824561403508771,
+      "f1-score": 0.9491525423728814,
+      "support": 57.0
+    },
+    "Obesity_Type_I": {
+      "precision": 0.9722222222222222,
+      "recall": 1.0,
+      "f1-score": 0.9859154929577465,
+      "support": 70.0
+    },
+    "Obesity_Type_II": {
+      "precision": 1.0,
+      "recall": 0.9833333333333333,
+      "f1-score": 0.9915966386554622,
+      "support": 60.0
+    },
+    "Obesity_Type_III": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 65.0
+    },
+    "Overweight_Level_I": {
+      "precision": 1.0,
+      "recall": 0.8909090909090909,
+      "f1-score": 0.9423076923076923,
+      "support": 55.0
+    },
+    "Overweight_Level_II": {
+      "precision": 0.9661016949152542,
+      "recall": 0.9827586206896551,
+      "f1-score": 0.9743589743589743,
+      "support": 58.0
+    },
+    "accuracy": 0.9760765550239234,
+    "macro avg": {
+      "precision": 0.9767841113563458,
+      "recall": 0.9743698943935221,
+      "f1-score": 0.9749233451606364,
+      "support": 418.0
+    },
+    "weighted avg": {
+      "precision": 0.9770749347203332,
+      "recall": 0.9760765550239234,
+      "f1-score": 0.9759600988788704,
+      "support": 418.0
+    }
+  },
+  "has_probabilities": true,
+  "winner": "RandomForest",
+  "best_params": {
+    "classifier__n_estimators": 500,
+    "classifier__min_samples_split": 10,
+    "classifier__min_samples_leaf": 1,
+    "classifier__max_features": "sqrt",
+    "classifier__max_depth": 24
+  },
+  "cv_f1_macro": 0.9810023950766028,
+  "n_iter": 8,
+  "cv": 3
+}

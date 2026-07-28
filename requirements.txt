@@ -1,10 +1,7 @@
-pandas
-numpy
-scikit-learn
-joblib
-matplotlib
-seaborn
-plotly
-streamlit
+pandas==2.2.2
+numpy==2.3.2
+scikit-learn==1.8.0
+joblib==1.5.3
+matplotlib==3.10.7
+streamlit==1.48.0
 pytest
-

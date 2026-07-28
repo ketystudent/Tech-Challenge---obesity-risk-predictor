@@ -1,0 +1,9 @@
+{
+  "classification_report": "C:\\Users\\ksenne\\OneDrive - azureford\\Desktop\\PosTech\\Tech Challenge 4\\Tech-Challenge---obesity-risk-predictor\\reports\\model_results\\classification_report.json",
+  "classification_report_csv": "C:\\Users\\ksenne\\OneDrive - azureford\\Desktop\\PosTech\\Tech Challenge 4\\Tech-Challenge---obesity-risk-predictor\\reports\\model_results\\classification_report.csv",
+  "confusion_matrix_figure": "C:\\Users\\ksenne\\OneDrive - azureford\\Desktop\\PosTech\\Tech Challenge 4\\Tech-Challenge---obesity-risk-predictor\\reports\\figures\\confusion_matrix_final_model.png",
+  "feature_importance_csv": "C:\\Users\\ksenne\\OneDrive - azureford\\Desktop\\PosTech\\Tech Challenge 4\\Tech-Challenge---obesity-risk-predictor\\reports\\model_results\\feature_importance.csv",
+  "feature_importance_figure": "C:\\Users\\ksenne\\OneDrive - azureford\\Desktop\\PosTech\\Tech Challenge 4\\Tech-Challenge---obesity-risk-predictor\\reports\\figures\\feature_importance_top15.png",
+  "permutation_importance_csv": "C:\\Users\\ksenne\\OneDrive - azureford\\Desktop\\PosTech\\Tech Challenge 4\\Tech-Challenge---obesity-risk-predictor\\reports\\model_results\\permutation_importance.csv",
+  "permutation_importance_figure": "C:\\Users\\ksenne\\OneDrive - azureford\\Desktop\\PosTech\\Tech Challenge 4\\Tech-Challenge---obesity-risk-predictor\\reports\\figures\\permutation_importance_top15.png"
+}

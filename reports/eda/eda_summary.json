@@ -1,0 +1,175 @@
+{
+  "rows_original": 2111,
+  "rows_without_duplicates": 2087,
+  "columns": 17,
+  "duplicate_rows": 24,
+  "missing_values": {
+    "Gender": 0,
+    "Age": 0,
+    "Height": 0,
+    "Weight": 0,
+    "family_history": 0,
+    "FAVC": 0,
+    "FCVC": 0,
+    "NCP": 0,
+    "CAEC": 0,
+    "SMOKE": 0,
+    "CH2O": 0,
+    "SCC": 0,
+    "FAF": 0,
+    "TUE": 0,
+    "CALC": 0,
+    "MTRANS": 0,
+    "Obesity": 0
+  },
+  "target_distribution": {
+    "Obesity_Type_I": 351,
+    "Obesity_Type_III": 324,
+    "Obesity_Type_II": 297,
+    "Overweight_Level_II": 290,
+    "Normal_Weight": 282,
+    "Overweight_Level_I": 276,
+    "Insufficient_Weight": 267
+  },
+  "target_distribution_pct": {
+    "Obesity_Type_I": 16.82,
+    "Obesity_Type_III": 15.52,
+    "Obesity_Type_II": 14.23,
+    "Overweight_Level_II": 13.9,
+    "Normal_Weight": 13.51,
+    "Overweight_Level_I": 13.22,
+    "Insufficient_Weight": 12.79
+  },
+  "numeric_summary": {
+    "Age": {
+      "count": 2087.0,
+      "mean": 24.3531,
+      "std": 6.3688,
+      "min": 14.0,
+      "25%": 19.9159,
+      "50%": 22.8476,
+      "75%": 26.0,
+      "max": 61.0
+    },
+    "Height": {
+      "count": 2087.0,
+      "mean": 1.7027,
+      "std": 0.0932,
+      "min": 1.45,
+      "25%": 1.6302,
+      "50%": 1.7016,
+      "75%": 1.7695,
+      "max": 1.98
+    },
+    "Weight": {
+      "count": 2087.0,
+      "mean": 86.8587,
+      "std": 26.1908,
+      "min": 39.0,
+      "25%": 66.0,
+      "50%": 83.1011,
+      "75%": 108.0159,
+      "max": 173.0
+    },
+    "FCVC": {
+      "count": 2087.0,
+      "mean": 2.4215,
+      "std": 0.5347,
+      "min": 1.0,
+      "25%": 2.0,
+      "50%": 2.3963,
+      "75%": 3.0,
+      "max": 3.0
+    },
+    "NCP": {
+      "count": 2087.0,
+      "mean": 2.7012,
+      "std": 0.7646,
+      "min": 1.0,
+      "25%": 2.6975,
+      "50%": 3.0,
+      "75%": 3.0,
+      "max": 4.0
+    },
+    "CH2O": {
+      "count": 2087.0,
+      "mean": 2.0047,
+      "std": 0.6083,
+      "min": 1.0,
+      "25%": 1.5909,
+      "50%": 2.0,
+      "75%": 2.4662,
+      "max": 3.0
+    },
+    "FAF": {
+      "count": 2087.0,
+      "mean": 1.0128,
+      "std": 0.8535,
+      "min": 0.0,
+      "25%": 0.1245,
+      "50%": 1.0,
+      "75%": 1.6781,
+      "max": 3.0
+    },
+    "TUE": {
+      "count": 2087.0,
+      "mean": 0.663,
+      "std": 0.6082,
+      "min": 0.0,
+      "25%": 0.0,
+      "50%": 0.6309,
+      "75%": 1.0,
+      "max": 2.0
+    }
+  },
+  "categorical_unique_values": {
+    "Gender": [
+      "Female",
+      "Male"
+    ],
+    "family_history": [
+      "no",
+      "yes"
+    ],
+    "FAVC": [
+      "no",
+      "yes"
+    ],
+    "CAEC": [
+      "Always",
+      "Frequently",
+      "Sometimes",
+      "no"
+    ],
+    "SMOKE": [
+      "no",
+      "yes"
+    ],
+    "SCC": [
+      "no",
+      "yes"
+    ],
+    "CALC": [
+      "Always",
+      "Frequently",
+      "Sometimes",
+      "no"
+    ],
+    "MTRANS": [
+      "Automobile",
+      "Bike",
+      "Motorbike",
+      "Public_Transportation",
+      "Walking"
+    ],
+    "Obesity": [
+      "Insufficient_Weight",
+      "Normal_Weight",
+      "Obesity_Type_I",
+      "Obesity_Type_II",
+      "Obesity_Type_III",
+      "Overweight_Level_I",
+      "Overweight_Level_II"
+    ]
+  }
+}

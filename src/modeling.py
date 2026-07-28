@@ -1,13 +1,17 @@
 import json
+from importlib.util import find_spec
 from datetime import datetime, timezone
 
 import joblib
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
+from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedKFold, cross_validate, train_test_split
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import LabelEncoder
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 
 from src.config import (
     CLASS_ORDER,
@@ -36,19 +40,63 @@ def encode_target(y: pd.Series) -> tuple[np.ndarray, LabelEncoder]:
 
 
 def candidate_models() -> dict:
-    return {
+    models = {
         "LogisticRegression": LogisticRegression(max_iter=1000, random_state=RANDOM_STATE),
+        "DecisionTree": DecisionTreeClassifier(random_state=RANDOM_STATE),
         "RandomForest": RandomForestClassifier(n_estimators=300, random_state=RANDOM_STATE),
         "ExtraTrees": ExtraTreesClassifier(n_estimators=300, random_state=RANDOM_STATE),
+        "GradientBoosting": GradientBoostingClassifier(random_state=RANDOM_STATE),
+        "KNN": KNeighborsClassifier(),
+        "SVM": SVC(random_state=RANDOM_STATE, probability=True),
     }
 
+    if find_spec("xgboost"):
+        from xgboost import XGBClassifier
 
-def compare_models(X, y, include_bmi: bool = True, cv_splits: int = 5) -> pd.DataFrame:
+        models["XGBoost"] = XGBClassifier(
+            random_state=RANDOM_STATE,
+            eval_metric="mlogloss",
+        )
+
+    if find_spec("lightgbm"):
+        from lightgbm import LGBMClassifier
+
+        models["LightGBM"] = LGBMClassifier(random_state=RANDOM_STATE, verbose=-1)
+
+    if find_spec("catboost"):
+        from catboost import CatBoostClassifier
+
+        models["CatBoost"] = CatBoostClassifier(
+            random_state=RANDOM_STATE,
+            verbose=0,
+            allow_writing_files=False,
+        )
+
+    return models
+
+
+def compare_models(
+    X,
+    y,
+    include_bmi: bool = True,
+    cv_splits: int = 5,
+    include_behavioral_features: bool = True,
+    include_age_group: bool = True,
+    include_weight_class: bool = True,
+    excluded_columns: list[str] | None = None,
+) -> pd.DataFrame:
     cv = StratifiedKFold(n_splits=cv_splits, shuffle=True, random_state=RANDOM_STATE)
     rows = []
 
     for name, classifier in candidate_models().items():
-        pipeline = build_model_pipeline(classifier, include_bmi=include_bmi)
+        pipeline = build_model_pipeline(
+            classifier,
+            include_bmi=include_bmi,
+            include_behavioral_features=include_behavioral_features,
+            include_age_group=include_age_group,
+            include_weight_class=include_weight_class,
+            excluded_columns=excluded_columns,
+        )
         scores = cross_validate(
             pipeline,
             X,
@@ -86,7 +134,12 @@ def train_and_save_final_model(df: pd.DataFrame, include_bmi: bool = True):
 
     y_pred = pipeline.predict(X_test)
     y_proba = pipeline.predict_proba(X_test) if hasattr(pipeline, "predict_proba") else None
-    metrics = evaluate_predictions(y_test, y_pred, y_proba)
+    metrics = evaluate_predictions(
+        y_test,
+        y_pred,
+        y_proba,
+        class_names=list(label_encoder.classes_),
+    )
     metrics["winner"] = winner_name
     metrics["include_bmi"] = include_bmi
     metrics["comparison"] = comparison.to_dict(orient="records")
@@ -109,4 +162,3 @@ def train_and_save_final_model(df: pd.DataFrame, include_bmi: bool = True):
         encoding="utf-8",
     )
     return pipeline, label_encoder, metrics
-

@@ -1,0 +1,41 @@
+[
+  {
+    "model": "RandomForest",
+    "best_cv_f1_macro": 0.9810023950766028,
+    "best_params": {
+      "classifier__n_estimators": 500,
+      "classifier__min_samples_split": 10,
+      "classifier__min_samples_leaf": 1,
+      "classifier__max_features": "sqrt",
+      "classifier__max_depth": 24
+    },
+    "fit_time_seconds": 36.69360876083374,
+    "created_at": "2026-07-28T00:14:32.173766+00:00"
+  },
+  {
+    "model": "GradientBoosting",
+    "best_cv_f1_macro": 0.9779539794634268,
+    "best_params": {
+      "classifier__subsample": 0.8,
+      "classifier__n_estimators": 150,
+      "classifier__min_samples_leaf": 1,
+      "classifier__max_depth": 4,
+      "classifier__learning_rate": 0.1
+    },
+    "fit_time_seconds": 38.9321768283844,
+    "created_at": "2026-07-28T00:15:23.110349+00:00"
+  },
+  {
+    "model": "ExtraTrees",
+    "best_cv_f1_macro": 0.9772494687402342,
+    "best_params": {
+      "classifier__n_estimators": 500,
+      "classifier__min_samples_split": 2,
+      "classifier__min_samples_leaf": 1,
+      "classifier__max_features": null,
+      "classifier__max_depth": 12
+    },
+    "fit_time_seconds": 12.004406452178955,
+    "created_at": "2026-07-28T00:14:44.178172+00:00"
+  }
+]

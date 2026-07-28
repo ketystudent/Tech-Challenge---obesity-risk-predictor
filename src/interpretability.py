@@ -21,3 +21,18 @@ def compute_permutation_importance(pipeline, X, y, n_repeats: int = 10) -> pd.Da
         }
     ).sort_values("importance_mean", ascending=False)
 
+
+def get_model_feature_importance(pipeline) -> pd.DataFrame:
+    classifier = pipeline.named_steps["classifier"]
+    preprocessor = pipeline.named_steps["preprocessor"]
+
+    if not hasattr(classifier, "feature_importances_"):
+        raise ValueError("The final classifier does not expose feature_importances_.")
+
+    feature_names = preprocessor.get_feature_names_out()
+    return pd.DataFrame(
+        {
+            "feature": feature_names,
+            "importance": classifier.feature_importances_,
+        }
+    ).sort_values("importance", ascending=False)
