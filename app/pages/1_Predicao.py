@@ -9,11 +9,27 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.predict import predict_obesity
+from app.ui import apply_theme, metric_card, render_page_header, render_sidebar, render_status_bar, result_card
 
-st.set_page_config(page_title="Predicao", layout="wide")
-st.title("Predicao")
+st.set_page_config(page_title="Predicao | VitaCare", layout="wide")
+apply_theme()
+render_sidebar()
+render_page_header(
+    "Predicao individual",
+    "Preencha os dados do paciente para estimar o nivel de obesidade e visualizar as probabilidades por classe.",
+)
+render_status_bar("Formulario pronto", "Pipeline final carregada para inferencia")
+
+top1, top2, top3 = st.columns(3)
+with top1:
+    metric_card("Modelo", "RandomForest", "Classificacao multiclasse")
+with top2:
+    metric_card("F1 macro", "0.9775", "Metrica final do teste")
+with top3:
+    metric_card("Classes", "7", "Niveis de peso e obesidade")
 
 with st.form("prediction_form"):
+    st.markdown('<div class="vc-card-title">Dados da avaliacao</div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
 
     with col1:
@@ -41,7 +57,7 @@ with st.form("prediction_form"):
             ["Walking", "Bike", "Motorbike", "Automobile", "Public_Transportation"],
         )
 
-    submitted = st.form_submit_button("Prever")
+    submitted = st.form_submit_button("Gerar avaliacao")
 
 if submitted:
     input_data = {
@@ -65,12 +81,16 @@ if submitted:
 
     try:
         result = predict_obesity(input_data)
-        st.subheader(result["predicted_label"])
-        st.caption(result["predicted_class"])
+        result_card(
+            "Resultado previsto",
+            result["predicted_label"],
+            f"Classe tecnica: {result['predicted_class']}",
+        )
         if result["probabilities"]:
             probabilities = pd.DataFrame(
                 result["probabilities"].items(), columns=["Classe", "Probabilidade"]
             ).sort_values("Probabilidade", ascending=False)
+            st.subheader("Distribuicao de probabilidades")
             st.bar_chart(probabilities, x="Classe", y="Probabilidade")
     except Exception as exc:
         st.error(str(exc))

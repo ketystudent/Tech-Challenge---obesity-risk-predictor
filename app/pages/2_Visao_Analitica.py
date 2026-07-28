@@ -12,9 +12,16 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.config import RAW_DATA_PATH, REPORTS_DIR, TARGET_COLUMN
 from src.data_loading import load_obesity_data
+from app.ui import apply_theme, metric_card, render_page_header, render_sidebar, render_status_bar
 
-st.set_page_config(page_title="Visao Analitica", layout="wide")
-st.title("Visao Analitica")
+st.set_page_config(page_title="Visao Analitica | VitaCare", layout="wide")
+apply_theme()
+render_sidebar()
+render_page_header(
+    "Visao analitica",
+    "Painel de exploracao dos dados, perfil clinico e habitos associados aos niveis de obesidade.",
+)
+render_status_bar("Dados carregados", "Base limpa e relatorios analiticos disponiveis")
 
 try:
     df = load_obesity_data(RAW_DATA_PATH)
@@ -32,9 +39,12 @@ else:
     eda_summary = {}
 
 col1, col2, col3 = st.columns(3)
-col1.metric("Registros", f"{len(df_clean):,}".replace(",", "."))
-col2.metric("Colunas", df.shape[1])
-col3.metric("Duplicatas", int(df.duplicated().sum()))
+with col1:
+    metric_card("Registros", f"{len(df_clean):,}".replace(",", "."), "Apos remocao de duplicatas")
+with col2:
+    metric_card("Colunas", str(df.shape[1]), "Variaveis da base original")
+with col3:
+    metric_card("Duplicatas", str(int(df.duplicated().sum())), "Registros removidos na modelagem")
 
 tab_overview, tab_profile, tab_behavior, tab_figures, tab_data = st.tabs(
     ["Resumo", "Perfil Clinico", "Habitos", "Figuras", "Dados"]
@@ -82,10 +92,20 @@ with tab_overview:
         st.subheader("Principais pontos")
         duplicates = eda_summary.get("duplicate_rows", int(df.duplicated().sum()))
         missing_total = sum(eda_summary.get("missing_values", {}).values())
-        st.write(f"- A base possui {len(df_clean)} registros apos remover {duplicates} duplicatas.")
-        st.write(f"- Total de valores ausentes encontrados: {missing_total}.")
-        st.write("- As classes apresentam distribuicao relativamente equilibrada para classificacao multiclasse.")
-        st.write("- Peso e altura concentram grande parte do sinal preditivo, exigindo leitura clinica cuidadosa.")
+        st.markdown(
+            f"""
+            <div class="vc-card">
+                <div class="vc-card-title">Leitura executiva</div>
+                <div class="vc-card-muted">
+                    A base possui {len(df_clean)} registros apos remover {duplicates} duplicatas.
+                    O total de valores ausentes encontrados foi {missing_total}. As classes apresentam
+                    distribuicao relativamente equilibrada, e peso/altura concentram grande parte do
+                    sinal preditivo.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
     st.subheader("Resumo numerico")
     st.dataframe(df_clean.describe(), use_container_width=True)

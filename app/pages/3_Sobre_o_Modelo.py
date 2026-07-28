@@ -10,18 +10,28 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.config import METRICS_PATH, MODEL_METADATA_PATH, REPORTS_DIR
+from app.ui import apply_theme, metric_card, render_page_header, render_sidebar, render_status_bar
 
-st.set_page_config(page_title="Sobre o Modelo", layout="wide")
-st.title("Sobre o Modelo")
+st.set_page_config(page_title="Sobre o Modelo | VitaCare", layout="wide")
+apply_theme()
+render_sidebar()
+render_page_header(
+    "Informacoes do modelo",
+    "Metricas, tuning, matriz de confusao e interpretabilidade da pipeline final.",
+)
+render_status_bar("Modelo validado", "Artefatos finais carregados para auditoria")
 
 if METRICS_PATH.exists():
     metrics = json.loads(METRICS_PATH.read_text(encoding="utf-8"))
-    st.subheader("Metricas")
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Accuracy", f"{metrics.get('accuracy', 0):.4f}")
-    col2.metric("F1 macro", f"{metrics.get('f1_macro', 0):.4f}")
-    col3.metric("Precision macro", f"{metrics.get('precision_macro', 0):.4f}")
-    col4.metric("Recall macro", f"{metrics.get('recall_macro', 0):.4f}")
+    with col1:
+        metric_card("Accuracy", f"{metrics.get('accuracy', 0):.4f}", "Conjunto de teste")
+    with col2:
+        metric_card("F1 macro", f"{metrics.get('f1_macro', 0):.4f}", "Metrica principal")
+    with col3:
+        metric_card("Precision macro", f"{metrics.get('precision_macro', 0):.4f}", "Media entre classes")
+    with col4:
+        metric_card("Recall macro", f"{metrics.get('recall_macro', 0):.4f}", "Media entre classes")
 
     with st.expander("Metricas completas"):
         st.json(metrics)
