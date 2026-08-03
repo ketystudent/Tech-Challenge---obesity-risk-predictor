@@ -86,6 +86,12 @@ def apply_theme() -> None:
             border-radius: 16px;
             padding: 1rem 1.1rem;
             box-shadow: var(--vc-shadow);
+            box-sizing: border-box;
+            min-height: 10.5rem;
+            height: 10.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         div[data-testid="stMetricLabel"] {
@@ -189,6 +195,15 @@ def apply_theme() -> None:
             padding: 1.15rem;
             box-shadow: var(--vc-shadow);
             margin-bottom: 1rem;
+        }
+
+        .vc-equal-metric-card {
+            box-sizing: border-box;
+            min-height: 10.5rem;
+            height: 10.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .vc-card-title {
@@ -331,7 +346,7 @@ def render_status_bar(status: str = "Sistema ativo", detail: str = "Modelo carre
 def metric_card(title: str, value: str, caption: str) -> None:
     st.markdown(
         f"""
-        <div class="vc-card">
+        <div class="vc-card vc-equal-metric-card">
             <div class="vc-card-muted">{title}</div>
             <div style="font-size:2rem;font-weight:850;color:var(--vc-teal-dark);line-height:1.1;">{value}</div>
             <div class="vc-card-muted">{caption}</div>

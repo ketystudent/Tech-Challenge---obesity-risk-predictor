@@ -197,7 +197,7 @@ if submitted:
         segunda_probabilidade = f"{alternativa[1]:.1%} de probabilidade" if alternativa else ""
         resumo3.markdown(
             f"""
-            <div class="vc-card" style="min-height:9.7rem;margin-bottom:0;">
+            <div class="vc-card vc-equal-metric-card" style="margin-bottom:0;">
                 <div class="vc-card-muted" style="font-size:1rem;">Segunda possibilidade</div>
                 <div style="font-size:1.55rem;font-weight:800;color:var(--vc-teal-dark);
                             line-height:1.15;margin:0.75rem 0 0.55rem;overflow-wrap:anywhere;">
