@@ -9,32 +9,94 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from app.ui import apply_theme, metric_card, render_page_header, render_sidebar, render_status_bar
 
-st.set_page_config(page_title="Painel de Risco VitaCare", layout="wide")
+st.set_page_config(page_title="Início | VitaCare", layout="wide")
 apply_theme()
 render_sidebar()
 render_page_header(
-    "Avaliação de risco",
-    "Sistema preditivo para apoio à triagem clínica e à análise de níveis de obesidade.",
+    "Apoio inteligente à avaliação da obesidade",
+    "Uma ferramenta acadêmica que reúne predição individual, análise populacional e transparência do modelo para apoiar a equipe de saúde.",
+    "VitaCare — visão geral",
 )
-render_status_bar()
-
-col1, col2, col3 = st.columns(3)
-with col1:
-    metric_card("Modelo final", "Floresta Aleatória", "Pipeline validada e serializada")
-with col2:
-    metric_card("F1 macro", "0.9775", "Desempenho no conjunto de teste")
-with col3:
-    metric_card("Painel", "Ativo", "Análises disponíveis")
+render_status_bar("Sistema disponível", "Modelo preditivo e painel analítico prontos para utilização")
 
 st.markdown(
     """
     <div class="vc-card">
-        <div class="vc-card-title">Fluxo da aplicação</div>
+        <div class="vc-card-title">Objetivo da aplicação</div>
         <div class="vc-card-muted">
-            Use o menu lateral para acessar a predição individual, a visão analítica dos dados
-            e as informações do modelo. O sistema foi desenvolvido para fins acadêmicos e não
-            substitui avaliação médica.
+            O VitaCare foi desenvolvido para apoiar a triagem e a discussão clínica sobre o estado
+            nutricional. A aplicação combina medidas antropométricas, características pessoais e
+            hábitos de vida para estimar uma entre sete classificações de peso e obesidade. Também
+            oferece uma visão analítica da população estudada, permitindo identificar padrões que
+            podem orientar ações de prevenção, acompanhamento e educação em saúde.
         </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.markdown("### O que você encontra na aplicação")
+
+col_predicao, col_analise = st.columns(2)
+with col_predicao:
+    with st.container(border=True):
+        st.subheader("Predição individual")
+        st.write(
+            "Registre os dados de uma pessoa para obter a classificação estimada, o IMC, "
+            "as probabilidades do modelo e pontos de verificação para a avaliação clínica."
+        )
+        st.page_link("pages/1_Predicao.py", label="Acessar predição", icon="🩺")
+
+with col_analise:
+    with st.container(border=True):
+        st.subheader("Visão analítica")
+        st.write(
+            "Explore indicadores da população, distribuições de peso, perfil antropométrico "
+            "e associações observadas com hábitos e histórico familiar."
+        )
+        st.page_link("pages/2_Visao_Analitica.py", label="Acessar painel analítico", icon="📊")
+
+col_modelo, col_links = st.columns(2)
+with col_modelo:
+    with st.container(border=True):
+        st.subheader("Sobre o modelo")
+        st.write(
+            "Consulte desempenho, metodologia, matriz de confusão, importância das variáveis, "
+            "otimização e limitações da solução preditiva."
+        )
+        st.page_link("pages/3_Sobre_o_Modelo.py", label="Conhecer o modelo", icon="🔎")
+
+with col_links:
+    with st.container(border=True):
+        st.subheader("Links do projeto")
+        st.write(
+            "Encontre o repositório no GitHub, o endereço da aplicação publicada e os materiais "
+            "utilizados na apresentação e entrega do projeto."
+        )
+        st.page_link("pages/4_Links.py", label="Consultar links", icon="🔗")
+
+st.markdown("### Como utilizar")
+etapa1, etapa2, etapa3 = st.columns(3)
+with etapa1:
+    metric_card("1. Informe", "Dados", "Preencha medidas e hábitos com informações atualizadas")
+with etapa2:
+    metric_card("2. Analise", "Resultado", "Observe a classificação, o IMC e as probabilidades")
+with etapa3:
+    metric_card("3. Contextualize", "Cuidado", "Combine o resultado com avaliação clínica profissional")
+
+st.markdown("### Escopo do estudo")
+dado1, dado2, dado3 = st.columns(3)
+dado1.metric("Registros analisados", "2.087", "Após remoção de duplicatas")
+dado2.metric("Classificações", "7", "De peso insuficiente à obesidade tipo III")
+dado3.metric("F1 macro do modelo", "0,9775", "Resultado no conjunto de teste")
+
+st.markdown(
+    """
+    <div class="vc-warning-card">
+        <strong>Uso responsável:</strong> o VitaCare é um projeto acadêmico de apoio à decisão.
+        A estimativa não constitui diagnóstico e não deve ser utilizada isoladamente para definir
+        tratamento. Confirme as medidas e considere anamnese, exame físico, contexto psicossocial,
+        comorbidades e protocolos assistenciais aplicáveis.
     </div>
     """,
     unsafe_allow_html=True,

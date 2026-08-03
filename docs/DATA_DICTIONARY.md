@@ -12,14 +12,14 @@ O objetivo e prever a coluna `Obesity`, que representa o nivel de obesidade/peso
 | `Weight` | Numérica | Peso em kg. | 39 a 173 |
 | `family_history` | Categórica | Historico familiar de excesso de peso. | `yes`, `no` |
 | `FAVC` | Categórica | Consumo frequente de alimentos altamente caloricos. | `yes`, `no` |
-| `FCVC` | Numérica ordinal | Frequencia de consumo de vegetais. | 1 a 3 |
-| `NCP` | Numérica ordinal | Quantidade de refeicoes principais por dia. | 1 a 4 |
+| `FCVC` | Numérica ordinal | Frequência de consumo de vegetais. | 1: nunca; 2: às vezes; 3: sempre |
+| `NCP` | Numérica ordinal | Quantidade de refeições principais por dia. | 1 a 4 |
 | `CAEC` | Categórica ordinal | Consumo de alimentos entre refeicoes. | `no`, `Sometimes`, `Frequently`, `Always` |
 | `SMOKE` | Categórica | Indicador se fuma. | `yes`, `no` |
-| `CH2O` | Numérica ordinal | Consumo diario de agua. | 1 a 3 |
+| `CH2O` | Numérica ordinal | Consumo diário de água. | 1: menos de 1 L; 2: entre 1 e 2 L; 3: mais de 2 L |
 | `SCC` | Categórica | Monitoramento de calorias ingeridas. | `yes`, `no` |
-| `FAF` | Numérica ordinal | Frequencia de atividade fisica. | 0 a 3 |
-| `TUE` | Numérica ordinal | Tempo de uso de dispositivos tecnologicos. | 0 a 2 |
+| `FAF` | Numérica ordinal | Frequência semanal de atividade física. | 0: não pratica; 1: 1–2 dias; 2: 2–4 dias; 3: 4–5 dias |
+| `TUE` | Numérica ordinal | Tempo diário de uso de dispositivos tecnológicos. | 0: até 2 h; 1: 3–5 h; 2: mais de 5 h |
 | `CALC` | Categórica ordinal | Frequencia de consumo de alcool. | `no`, `Sometimes`, `Frequently`, `Always` |
 | `MTRANS` | Categórica | Meio de transporte usual. | `Walking`, `Bike`, `Motorbike`, `Automobile`, `Public_Transportation` |
 | `Obesity` | Alvo | Classe de peso/obesidade a prever. | 7 classes |
