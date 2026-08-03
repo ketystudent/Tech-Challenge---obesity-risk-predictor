@@ -112,7 +112,13 @@ def apply_theme() -> None:
             text-transform: uppercase;
             font-size: 0.78rem;
             letter-spacing: 0.08em;
-            margin-bottom: 0.35rem;
+            line-height: 1.5;
+            display: inline-flex;
+            align-items: center;
+            min-height: 1.75rem;
+            padding: 0.2rem 0.15rem;
+            margin-bottom: 0.25rem;
+            overflow: visible;
         }
 
         .vc-page-title {

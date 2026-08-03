@@ -33,8 +33,8 @@ CLASS_ORDER = [
 CLASS_LABELS_PT = {
     "Insufficient_Weight": "Peso insuficiente",
     "Normal_Weight": "Peso normal",
-    "Overweight_Level_I": "Sobrepeso nivel I",
-    "Overweight_Level_II": "Sobrepeso nivel II",
+    "Overweight_Level_I": "Sobrepeso nível I",
+    "Overweight_Level_II": "Sobrepeso nível II",
     "Obesity_Type_I": "Obesidade tipo I",
     "Obesity_Type_II": "Obesidade tipo II",
     "Obesity_Type_III": "Obesidade tipo III",
