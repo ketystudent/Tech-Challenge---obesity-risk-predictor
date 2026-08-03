@@ -52,13 +52,21 @@ def apply_theme() -> None:
         }
 
         /* Mantém o arquivo de entrada esperado pelo deploy e melhora seu nome no menu. */
-        [data-testid="stSidebarNavItems"] li:first-child a span {
-            font-size: 0;
+        [data-testid="stSidebarNavItems"] li:first-child a {
+            position: relative;
         }
 
-        [data-testid="stSidebarNavItems"] li:first-child a span::after {
+        [data-testid="stSidebarNavItems"] li:first-child a span {
+            display: none;
+        }
+
+        [data-testid="stSidebarNavItems"] li:first-child a::after {
             content: "Início";
             font-size: 1rem;
+            font-weight: 650;
+            color: inherit;
+            display: inline-flex;
+            align-items: center;
         }
 
         .block-container {

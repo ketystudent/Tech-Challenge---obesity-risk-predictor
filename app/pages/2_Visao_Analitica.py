@@ -79,9 +79,18 @@ df["Faixa etária"] = pd.cut(
 st.markdown("### Filtros da população")
 filtro_1, filtro_2, filtro_3 = st.columns([1, 1, 2])
 with filtro_1:
-    generos = st.multiselect("Gênero", ["Female", "Male"], format_func=lambda x: ROTULOS_VALORES[x])
+    generos = st.multiselect(
+        "Gênero",
+        ["Female", "Male"],
+        format_func=lambda x: ROTULOS_VALORES[x],
+        placeholder="Todos os gêneros",
+    )
 with filtro_2:
-    faixas = st.multiselect("Faixa etária", list(df["Faixa etária"].cat.categories))
+    faixas = st.multiselect(
+        "Faixa etária",
+        list(df["Faixa etária"].cat.categories),
+        placeholder="Todas as faixas etárias",
+    )
 with filtro_3:
     classes = st.multiselect(
         "Nível de peso", CLASS_ORDER, format_func=lambda x: CLASS_LABELS_PT[x],
@@ -108,7 +117,7 @@ kpi1, kpi2, kpi3, kpi4 = st.columns(4)
 kpi1.metric("Pessoas avaliadas", f"{total:,}".replace(",", "."), f"{percentual(total, len(df)):.1f}% da base")
 kpi2.metric("Com obesidade", f"{percentual(obesidade, total):.1f}%", f"{obesidade} registros")
 kpi3.metric("Sobrepeso ou obesidade", f"{percentual(excesso_peso, total):.1f}%", f"{excesso_peso} registros")
-kpi4.metric("IMC médio", f"{df_filtrado['IMC'].mean():.1f} kg/m²", "Indicador descritivo")
+kpi4.metric("IMC médio (kg/m²)", f"{df_filtrado['IMC'].mean():.1f}", "Indicador descritivo")
 
 st.caption(
     "Os percentuais descrevem esta base e não representam prevalência populacional. "
@@ -176,9 +185,10 @@ with tab_resumo:
         formatar_delta(taxa_obesidade(baixa_atividade) - base_taxa),
     )
     i3.metric(
-        "Obesidade com consumo calórico frequente",
+        "Obesidade e consumo calórico",
         f"{taxa_obesidade(caloricos):.1f}%",
         formatar_delta(taxa_obesidade(caloricos) - base_taxa),
+        help="Taxa de obesidade entre os registros com consumo frequente de alimentos altamente calóricos.",
     )
     st.caption(
         "Comparações descritivas calculadas na base completa. Diferenças em pontos percentuais indicam associação observada, não causalidade."

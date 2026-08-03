@@ -191,11 +191,22 @@ if submitted:
             f"{imc:.1f} kg/m²",
             help="Calculado como peso dividido pela altura ao quadrado.",
         )
-        resumo3.metric(
-            "Segunda possibilidade",
-            CLASS_LABELS_PT.get(alternativa[0], alternativa[0]) if alternativa else "Indisponível",
-            f"{alternativa[1]:.1%}" if alternativa else None,
-            delta_color="off",
+        segunda_classe = (
+            CLASS_LABELS_PT.get(alternativa[0], alternativa[0]) if alternativa else "Indisponível"
+        )
+        segunda_probabilidade = f"{alternativa[1]:.1%} de probabilidade" if alternativa else ""
+        resumo3.markdown(
+            f"""
+            <div class="vc-card" style="min-height:9.7rem;margin-bottom:0;">
+                <div class="vc-card-muted" style="font-size:1rem;">Segunda possibilidade</div>
+                <div style="font-size:1.55rem;font-weight:800;color:var(--vc-teal-dark);
+                            line-height:1.15;margin:0.75rem 0 0.55rem;overflow-wrap:anywhere;">
+                    {segunda_classe}
+                </div>
+                <div class="vc-card-muted">{segunda_probabilidade}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
 
         if probabilidade_principal is not None and probabilidade_principal < 0.60:
