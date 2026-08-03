@@ -9,8 +9,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.config import METRICS_PATH, MODEL_METADATA_PATH, REPORTS_DIR
+from app.downloads import botao_download_csv
 from app.ui import apply_theme, metric_card, render_page_header, render_sidebar, render_status_bar
+from src.config import METRICS_PATH, MODEL_METADATA_PATH, REPORTS_DIR
 
 st.set_page_config(page_title="Sobre o Modelo | VitaCare", layout="wide")
 apply_theme()
@@ -35,6 +36,53 @@ if METRICS_PATH.exists():
 
     with st.expander("Métricas completas"):
         st.json(metrics)
+
+    comparacao_modelos = pd.DataFrame(metrics.get("comparison", []))
+    if not comparacao_modelos.empty:
+        comparacao_modelos = comparacao_modelos.rename(
+            columns={
+                "model": "Modelo",
+                "accuracy_mean": "Acurácia média",
+                "accuracy_std": "Desvio da acurácia",
+                "f1_macro_mean": "F1 macro médio",
+                "f1_macro_std": "Desvio do F1 macro",
+                "precision_macro_mean": "Precisão macro média",
+                "recall_macro_mean": "Revocação macro média",
+            }
+        ).sort_values("F1 macro médio", ascending=False)
+        comparacao_modelos.insert(0, "Posição", range(1, len(comparacao_modelos) + 1))
+
+        st.subheader("Comparação dos modelos")
+        st.caption(
+            "Scores médios obtidos na validação cruzada. O F1 macro considera igualmente o desempenho nas sete classes."
+        )
+        st.dataframe(
+            comparacao_modelos.style.format(
+                {
+                    "Acurácia média": "{:.4f}",
+                    "Desvio da acurácia": "{:.4f}",
+                    "F1 macro médio": "{:.4f}",
+                    "Desvio do F1 macro": "{:.4f}",
+                    "Precisão macro média": "{:.4f}",
+                    "Revocação macro média": "{:.4f}",
+                }
+            ).highlight_max(subset=["Acurácia média", "F1 macro médio"], color="#d9f3ef"),
+            use_container_width=True,
+            hide_index=True,
+        )
+        st.bar_chart(
+            comparacao_modelos,
+            x="Modelo",
+            y=["Acurácia média", "F1 macro médio"],
+            horizontal=True,
+            x_label="Score médio",
+            y_label="Modelo",
+        )
+        botao_download_csv(
+            comparacao_modelos,
+            "comparacao_scores_modelos.csv",
+            key="download_comparacao_modelos",
+        )
 else:
     st.info("Métricas ainda não encontradas. Treine e exporte o modelo final.")
 
@@ -50,6 +98,11 @@ tuning_results_path = REPORTS_DIR / "model_results" / "tuning_results.csv"
 if tuning_results_path.exists():
     tuning_results = pd.read_csv(tuning_results_path)
     st.dataframe(tuning_results, use_container_width=True)
+    botao_download_csv(
+        tuning_results,
+        "resultados_otimizacao_modelos.csv",
+        key="download_otimizacao",
+    )
     tuned_metrics_path = REPORTS_DIR.parent / "models" / "tuned_metrics.json"
     if tuned_metrics_path.exists():
         tuned_metrics = json.loads(tuned_metrics_path.read_text(encoding="utf-8"))
@@ -81,7 +134,13 @@ with col_feature:
     if feature_importance_path.exists():
         st.image(str(feature_importance_path), use_container_width=True)
     if feature_importance_csv.exists():
-        st.dataframe(pd.read_csv(feature_importance_csv).head(15), use_container_width=True)
+        feature_importance = pd.read_csv(feature_importance_csv).head(15)
+        st.dataframe(feature_importance, use_container_width=True)
+        botao_download_csv(
+            feature_importance,
+            "importancia_variaveis_modelo.csv",
+            key="download_importancia_modelo",
+        )
 
 with col_perm:
     st.caption("Importância por permutação")
@@ -90,7 +149,13 @@ with col_perm:
     if permutation_path.exists():
         st.image(str(permutation_path), use_container_width=True)
     if permutation_csv.exists():
-        st.dataframe(pd.read_csv(permutation_csv).head(15), use_container_width=True)
+        permutation_importance = pd.read_csv(permutation_csv).head(15)
+        st.dataframe(permutation_importance, use_container_width=True)
+        botao_download_csv(
+            permutation_importance,
+            "importancia_variaveis_permutacao.csv",
+            key="download_importancia_permutacao",
+        )
 
 st.subheader("Limitações")
 st.write(

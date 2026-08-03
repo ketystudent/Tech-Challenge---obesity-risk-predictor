@@ -9,6 +9,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from app.downloads import botao_download_csv
 from app.ui import apply_theme, metric_card, render_page_header, render_sidebar, render_status_bar, result_card
 from src.config import CLASS_LABELS_PT
 from src.predict import predict_obesity
@@ -232,6 +233,11 @@ if submitted:
                 }
             )
             st.dataframe(resumo_paciente, use_container_width=True, hide_index=True)
+            botao_download_csv(
+                resumo_paciente,
+                "resumo_avaliacao_paciente.csv",
+                key="download_resumo_paciente",
+            )
 
         if probabilidades_ordenadas:
             probabilities = pd.DataFrame(

@@ -9,6 +9,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from app.downloads import botao_download_csv
 from app.ui import apply_theme, render_page_header, render_sidebar, render_status_bar
 from src.config import CLASS_LABELS_PT, CLASS_ORDER, RAW_DATA_PATH, TARGET_COLUMN
 from src.data_loading import load_obesity_data
@@ -199,6 +200,11 @@ with tab_perfil:
         use_container_width=True,
         hide_index=True,
     )
+    botao_download_csv(
+        resumo_clinico,
+        "resumo_perfil_antropometrico.csv",
+        key="download_resumo_clinico",
+    )
 
     col_peso, col_idade = st.columns(2)
     with col_peso:
@@ -257,9 +263,16 @@ with tab_habitos:
 with tab_dados:
     st.subheader("População selecionada")
     colunas_exibidas = ["Gender", "Age", "Height", "Weight", "family_history", "FAVC", "FCVC", "CH2O", "FAF", "TUE", TARGET_COLUMN]
+    dados_exibidos = traduzir_dataframe(df_filtrado[colunas_exibidas])
     st.dataframe(
-        traduzir_dataframe(df_filtrado[colunas_exibidas]).head(500),
+        dados_exibidos.head(500),
         use_container_width=True,
         hide_index=True,
+    )
+    botao_download_csv(
+        dados_exibidos,
+        "populacao_selecionada.csv",
+        rotulo="Baixar população selecionada em CSV",
+        key="download_populacao",
     )
     st.caption(f"Exibindo até 500 dos {total} registros selecionados. Dados destinados a análise acadêmica.")

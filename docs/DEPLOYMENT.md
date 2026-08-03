@@ -37,7 +37,7 @@ No Streamlit Community Cloud, crie um app com:
 ```text
 Repository: ketystudent/Tech-Challenge---obesity-risk-predictor
 Branch: main
-Main file path: app/streamlit_app.py
+Main file path: app/Inicio.py
 ```
 
 Se estiver usando outra branch, selecione a branch correspondente.
@@ -49,7 +49,7 @@ Se estiver usando outra branch, selecione a branch correspondente.
 3. Clique em `Create app` (Criar aplicativo).
 4. Escolha a opcao para usar um app existente no GitHub.
 5. Selecione o repositorio.
-6. Configure o caminho principal como `app/streamlit_app.py`.
+6. Configure o caminho principal como `app/Inicio.py`.
 7. Clique em `Deploy` (Publicar).
 8. Aguarde a instalacao das dependencias.
 9. Copie a URL final gerada.
