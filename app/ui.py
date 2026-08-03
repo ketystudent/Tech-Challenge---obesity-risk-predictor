@@ -267,18 +267,18 @@ def render_sidebar() -> None:
         """
         <div class="vc-sidebar-brand">
             <div class="vc-brand-name">VitaCare</div>
-            <div class="vc-brand-subtitle">Clinical Intelligence</div>
+            <div class="vc-brand-subtitle">Inteligência Clínica</div>
         </div>
         <div class="vc-user-card">
-            <div style="font-weight:800;color:#ffffff;">Equipe de Saude</div>
-            <div style="color:#b9d8e7;margin-top:0.2rem;">Ambiente academico FIAP</div>
+            <div style="font-weight:800;color:#ffffff;">Equipe de Saúde</div>
+            <div style="color:#b9d8e7;margin-top:0.2rem;">Ambiente acadêmico FIAP</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
 
-def render_page_header(title: str, subtitle: str, kicker: str = "Painel clinico") -> None:
+def render_page_header(title: str, subtitle: str, kicker: str = "Painel clínico") -> None:
     st.markdown(
         f"""
         <div class="vc-page-kicker">{kicker}</div>
@@ -289,7 +289,7 @@ def render_page_header(title: str, subtitle: str, kicker: str = "Painel clinico"
     )
 
 
-def render_status_bar(status: str = "Sistema ativo", detail: str = "Modelo carregado e servicos operacionais") -> None:
+def render_status_bar(status: str = "Sistema ativo", detail: str = "Modelo carregado e serviços operacionais") -> None:
     st.markdown(
         f"""
         <div class="vc-status-bar">
@@ -297,7 +297,7 @@ def render_status_bar(status: str = "Sistema ativo", detail: str = "Modelo carre
                 <div class="vc-status-pill"><span class="vc-dot"></span>{status}</div>
                 <div class="vc-card-muted" style="margin-left:1.2rem;">{detail}</div>
             </div>
-            <div class="vc-card-muted">VitaCare Risk Console</div>
+            <div class="vc-card-muted">Painel de Risco VitaCare</div>
         </div>
         """,
         unsafe_allow_html=True,

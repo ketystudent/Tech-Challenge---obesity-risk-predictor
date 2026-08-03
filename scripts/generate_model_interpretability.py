@@ -109,7 +109,7 @@ def main() -> None:
     save_importance_bar(
         feature_importance,
         "importance",
-        "Top 15 features - importancia do modelo",
+        "15 principais atributos — importância do modelo",
         FIGURES_DIR / "feature_importance_top15.png",
     )
 
@@ -119,7 +119,7 @@ def main() -> None:
     save_importance_bar(
         permutation,
         "importance_mean",
-        "Top 15 features - permutation importance",
+        "15 principais atributos — importância por permutação",
         FIGURES_DIR / "permutation_importance_top15.png",
     )
 
@@ -135,7 +135,7 @@ def main() -> None:
     summary_path = MODEL_RESULTS_DIR / "interpretability_summary.json"
     summary_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
-    print("Model interpretability artifacts generated.")
+    print("Artefatos de interpretabilidade do modelo gerados.")
     for key, value in summary.items():
         print(f"{key}: {value}")
 

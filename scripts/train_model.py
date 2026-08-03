@@ -30,7 +30,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--keep-duplicates",
         action="store_true",
-        help="Keep duplicated rows instead of removing them before training.",
+        help="Mantém as linhas duplicadas em vez de removê-las antes do treinamento.",
     )
     return parser.parse_args()
 
@@ -47,10 +47,10 @@ def main() -> None:
 
     print("Training finished.")
     print(f"Rows used: {len(df)}")
-    print(f"Duplicates found: {duplicates}")
-    print(f"Duplicates removed: {duplicates if duplicates and not args.keep_duplicates else 0}")
-    print(f"Winner: {metrics['winner']}")
-    print(f"Accuracy: {metrics['accuracy']:.4f}")
+    print(f"Duplicatas encontradas: {duplicates}")
+    print(f"Duplicatas removidas: {duplicates if duplicates and not args.keep_duplicates else 0}")
+    print(f"Vencedor: {metrics['winner']}")
+    print(f"Acurácia: {metrics['accuracy']:.4f}")
     print(f"F1 macro: {metrics['f1_macro']:.4f}")
     print("Artifacts:")
     print(f"- {FINAL_PIPELINE_PATH}")

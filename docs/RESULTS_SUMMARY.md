@@ -29,21 +29,21 @@ Metricas finais:
 
 | Metrica | Valor |
 |---|---:|
-| Accuracy | 0.9785 |
-| Precision macro | 0.9790 |
-| Recall macro | 0.9770 |
+| Acurácia | 0.9785 |
+| Precisão macro | 0.9790 |
+| Revocação macro | 0.9770 |
 | F1 macro | 0.9775 |
 
-## Tuning
+## Otimização
 
-O tuning com `RandomizedSearchCV` encontrou um `RandomForest` tunado com F1 macro de 0.9749 no teste. Como esse valor ficou abaixo do modelo final atual, o modelo tunado foi mantido apenas como artefato comparativo.
+A otimização com `RandomizedSearchCV` encontrou um `RandomForest` otimizado com F1 macro de 0.9749 no teste. Como esse valor ficou abaixo do modelo final atual, o modelo otimizado foi mantido apenas como artefato comparativo.
 
 ## Redundancia e Leakage Conceitual
 
 Foram avaliados cenarios para medir impacto das variaveis redundantes:
 
 - Modelo completo: F1 macro medio 0.9868.
-- Sem features derivadas redundantes: F1 macro medio 0.9627.
+- Sem atributos derivados redundantes: F1 macro médio 0.9627.
 - Modelo preventivo/comportamental sem `Weight`: F1 macro medio 0.8791.
 
 Conclusao: a performance permanece acima de 75% mesmo no cenario preventivo, mas o modelo completo e mais adequado para classificacao clinica baseada em informacoes antropometricas.
@@ -55,4 +55,3 @@ Conclusao: a performance permanece acima de 75% mesmo no cenario preventivo, mas
 - Metricas: `models/metrics.json`
 - Relatorios: `reports/model_results/`
 - Figuras: `reports/figures/`
-

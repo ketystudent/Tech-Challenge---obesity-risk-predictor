@@ -1,4 +1,4 @@
-# Model Card
+# Cartão do Modelo
 
 ## Objetivo
 
@@ -7,10 +7,10 @@ Modelo de classificacao multiclasse para prever o nivel de obesidade a partir de
 ## Modelo Final
 
 - Algoritmo: `RandomForestClassifier`
-- Pipeline: feature engineering + `ColumnTransformer` + classificador
+- Pipeline: engenharia de atributos + `ColumnTransformer` + classificador
 - Artefato: `models/final_pipeline.joblib`
 - Encoder: `models/label_encoder.joblib`
-- Dataset usado: `data/raw/Obesity.csv`
+- Conjunto de dados usado: `data/raw/Obesity.csv`
 - Registros originais: 2.111
 - Duplicatas removidas no treino: 24
 - Registros usados apos limpeza: 2.087
@@ -19,9 +19,9 @@ Modelo de classificacao multiclasse para prever o nivel de obesidade a partir de
 
 | Metrica | Valor |
 |---|---:|
-| Accuracy | 0.9785 |
-| Precision macro | 0.9790 |
-| Recall macro | 0.9770 |
+| Acurácia | 0.9785 |
+| Precisão macro | 0.9790 |
+| Revocação macro | 0.9770 |
 | F1 macro | 0.9775 |
 
 O desempenho atende ao requisito minimo do desafio, que pede assertividade acima de 75%.
@@ -30,7 +30,7 @@ O desempenho atende ao requisito minimo do desafio, que pede assertividade acima
 
 Melhor modelo na comparacao inicial:
 
-| Modelo | Accuracy media CV | F1 macro medio CV |
+| Modelo | Acurácia média na validação cruzada | F1 macro médio na validação cruzada |
 |---|---:|---:|
 | RandomForest | 0.9850 | 0.9847 |
 | ExtraTrees | 0.9802 | 0.9793 |
@@ -40,21 +40,21 @@ Melhor modelo na comparacao inicial:
 | SVM | 0.9593 | 0.9581 |
 | KNN | 0.9047 | 0.9000 |
 
-## Tuning
+## Otimização
 
 Foi executado `RandomizedSearchCV` para `RandomForest`, `ExtraTrees` e `GradientBoosting`.
 
-Melhor modelo tunado:
+Melhor modelo otimizado:
 
 - Algoritmo: `RandomForest`
 - F1 macro em teste: 0.9749
-- Accuracy em teste: 0.9761
+- Acurácia em teste: 0.9761
 
-O modelo tunado nao superou o modelo final atual no conjunto de teste, portanto nao foi promovido para `final_pipeline.joblib`.
+O modelo otimizado não superou o modelo final atual no conjunto de teste, portanto não foi promovido para `final_pipeline.joblib`.
 
 ## Cenarios de Redundancia
 
-| Cenario | Melhor modelo | Accuracy media | F1 macro medio |
+| Cenário | Melhor modelo | Acurácia média | F1 macro médio |
 |---|---|---:|---:|
 | Modelo completo | RandomForest | 0.9871 | 0.9868 |
 | Sem derivadas redundantes | GradientBoosting | 0.9641 | 0.9627 |
@@ -79,4 +79,3 @@ Artefatos gerados:
 - O alto desempenho pode refletir regras antropometricas do proprio alvo.
 - O modelo nao substitui avaliacao medica.
 - O sistema deve ser usado apenas como apoio educacional/analitico.
-

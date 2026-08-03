@@ -16,8 +16,8 @@ st.set_page_config(page_title="Sobre o Modelo | VitaCare", layout="wide")
 apply_theme()
 render_sidebar()
 render_page_header(
-    "Informacoes do modelo",
-    "Metricas, tuning, matriz de confusao e interpretabilidade da pipeline final.",
+    "Informações do modelo",
+    "Métricas, otimização, matriz de confusão e interpretabilidade da pipeline final.",
 )
 render_status_bar("Modelo validado", "Artefatos finais carregados para auditoria")
 
@@ -25,27 +25,27 @@ if METRICS_PATH.exists():
     metrics = json.loads(METRICS_PATH.read_text(encoding="utf-8"))
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        metric_card("Accuracy", f"{metrics.get('accuracy', 0):.4f}", "Conjunto de teste")
+        metric_card("Acurácia", f"{metrics.get('accuracy', 0):.4f}", "Conjunto de teste")
     with col2:
-        metric_card("F1 macro", f"{metrics.get('f1_macro', 0):.4f}", "Metrica principal")
+        metric_card("F1 macro", f"{metrics.get('f1_macro', 0):.4f}", "Métrica principal")
     with col3:
-        metric_card("Precision macro", f"{metrics.get('precision_macro', 0):.4f}", "Media entre classes")
+        metric_card("Precisão macro", f"{metrics.get('precision_macro', 0):.4f}", "Média entre classes")
     with col4:
-        metric_card("Recall macro", f"{metrics.get('recall_macro', 0):.4f}", "Media entre classes")
+        metric_card("Revocação macro", f"{metrics.get('recall_macro', 0):.4f}", "Média entre classes")
 
-    with st.expander("Metricas completas"):
+    with st.expander("Métricas completas"):
         st.json(metrics)
 else:
-    st.info("Metricas ainda nao encontradas. Treine e exporte o modelo final.")
+    st.info("Métricas ainda não encontradas. Treine e exporte o modelo final.")
 
 if MODEL_METADATA_PATH.exists():
     metadata = json.loads(MODEL_METADATA_PATH.read_text(encoding="utf-8"))
     st.subheader("Metadados")
     st.json(metadata)
 else:
-    st.info("Metadados ainda nao encontrados.")
+    st.info("Metadados ainda não encontrados.")
 
-st.subheader("Tuning")
+st.subheader("Otimização")
 tuning_results_path = REPORTS_DIR / "model_results" / "tuning_results.csv"
 if tuning_results_path.exists():
     tuning_results = pd.read_csv(tuning_results_path)
@@ -54,28 +54,28 @@ if tuning_results_path.exists():
     if tuned_metrics_path.exists():
         tuned_metrics = json.loads(tuned_metrics_path.read_text(encoding="utf-8"))
         st.caption(
-            "O modelo tunado e mantido como artefato separado. "
-            "Ele so deve substituir o modelo final se superar as metricas atuais no conjunto de teste."
+            "O modelo otimizado é mantido como artefato separado. "
+            "Ele só deve substituir o modelo final se superar as métricas atuais no conjunto de teste."
         )
         col_t1, col_t2, col_t3 = st.columns(3)
-        col_t1.metric("Tuned winner", tuned_metrics.get("winner", "-"))
-        col_t2.metric("Tuned accuracy", f"{tuned_metrics.get('accuracy', 0):.4f}")
-        col_t3.metric("Tuned F1 macro", f"{tuned_metrics.get('f1_macro', 0):.4f}")
+        col_t1.metric("Melhor modelo otimizado", tuned_metrics.get("winner", "-"))
+        col_t2.metric("Acurácia otimizada", f"{tuned_metrics.get('accuracy', 0):.4f}")
+        col_t3.metric("F1 macro otimizado", f"{tuned_metrics.get('f1_macro', 0):.4f}")
 else:
-    st.info("Resultados de tuning ainda nao encontrados.")
+    st.info("Resultados da otimização ainda não encontrados.")
 
-st.subheader("Matriz de Confusao")
+st.subheader("Matriz de Confusão")
 confusion_matrix_path = REPORTS_DIR / "figures" / "confusion_matrix_final_model.png"
 if confusion_matrix_path.exists():
     st.image(str(confusion_matrix_path), use_container_width=True)
 else:
-    st.info("Matriz de confusao ainda nao gerada.")
+    st.info("Matriz de confusão ainda não gerada.")
 
-st.subheader("Importancia das Variaveis")
+st.subheader("Importância das Variáveis")
 col_feature, col_perm = st.columns(2)
 
 with col_feature:
-    st.caption("Importancia nativa do modelo")
+    st.caption("Importância nativa do modelo")
     feature_importance_path = REPORTS_DIR / "figures" / "feature_importance_top15.png"
     feature_importance_csv = REPORTS_DIR / "model_results" / "feature_importance.csv"
     if feature_importance_path.exists():
@@ -84,7 +84,7 @@ with col_feature:
         st.dataframe(pd.read_csv(feature_importance_csv).head(15), use_container_width=True)
 
 with col_perm:
-    st.caption("Permutation importance")
+    st.caption("Importância por permutação")
     permutation_path = REPORTS_DIR / "figures" / "permutation_importance_top15.png"
     permutation_csv = REPORTS_DIR / "model_results" / "permutation_importance.csv"
     if permutation_path.exists():
@@ -92,8 +92,8 @@ with col_perm:
     if permutation_csv.exists():
         st.dataframe(pd.read_csv(permutation_csv).head(15), use_container_width=True)
 
-st.subheader("Limitacoes")
+st.subheader("Limitações")
 st.write(
-    "Este sistema e uma ferramenta educacional de apoio a decisao. "
-    "O resultado nao substitui avaliacao medica, exame clinico ou protocolo hospitalar."
+    "Este sistema é uma ferramenta educacional de apoio à decisão. "
+    "O resultado não substitui avaliação médica, exame clínico ou protocolo hospitalar."
 )

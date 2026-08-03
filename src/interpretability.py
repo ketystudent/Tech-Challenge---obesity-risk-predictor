@@ -27,7 +27,7 @@ def get_model_feature_importance(pipeline) -> pd.DataFrame:
     preprocessor = pipeline.named_steps["preprocessor"]
 
     if not hasattr(classifier, "feature_importances_"):
-        raise ValueError("The final classifier does not expose feature_importances_.")
+        raise ValueError("O classificador final não disponibiliza feature_importances_.")
 
     feature_names = preprocessor.get_feature_names_out()
     return pd.DataFrame(

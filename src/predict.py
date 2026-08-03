@@ -7,7 +7,7 @@ from src.data_validation import validate_input_frame
 
 def load_prediction_artifacts():
     if not FINAL_PIPELINE_PATH.exists() or not LABEL_ENCODER_PATH.exists():
-        raise FileNotFoundError("Model artifacts not found. Train the final model first.")
+        raise FileNotFoundError("Artefatos do modelo não encontrados. Treine primeiro o modelo final.")
     return joblib.load(FINAL_PIPELINE_PATH), joblib.load(LABEL_ENCODER_PATH)
 
 

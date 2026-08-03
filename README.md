@@ -1,6 +1,6 @@
-# Obesity Risk Predictor
+# Preditor de Risco de Obesidade
 
-Aplicacao de Machine Learning para prever o nivel de obesidade a partir de dados clinicos e habitos de vida. O projeto foi estruturado para atender ao Tech Challenge FIAP, com pipeline reproduzivel, modelo serializado, dashboard analitico e aplicacao preditiva em Streamlit.
+Aplicação de aprendizado de máquina para prever o nível de obesidade a partir de dados clínicos e hábitos de vida. O projeto foi estruturado para atender ao Tech Challenge FIAP, com pipeline reproduzível, modelo serializado, painel analítico e aplicação preditiva em Streamlit.
 
 ## Problema de Negocio
 
@@ -23,7 +23,7 @@ src/                 Codigo reutilizavel
 tests/               Testes automatizados
 ```
 
-## Dataset
+## Conjunto de Dados
 
 Arquivo esperado:
 
@@ -45,13 +45,13 @@ Veja o dicionario em [docs/DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md).
 
 A pipeline final contem:
 
-1. Feature engineering com transformadores compativeis com Scikit-Learn.
+1. Engenharia de atributos com transformadores compatíveis com Scikit-Learn.
 2. `ColumnTransformer` para numericas e categoricas.
-3. `StandardScaler` nas features numericas.
+3. `StandardScaler` nos atributos numéricos.
 4. `OneHotEncoder(handle_unknown="ignore")` nas categoricas.
 5. Classificador final `RandomForestClassifier`.
 
-Features criadas:
+Atributos criados:
 
 - `BMI`
 - `BMI_Class`
@@ -71,9 +71,9 @@ Metricas no conjunto de teste:
 
 | Metrica | Valor |
 |---|---:|
-| Accuracy | 0.9785 |
-| Precision macro | 0.9790 |
-| Recall macro | 0.9770 |
+| Acurácia | 0.9785 |
+| Precisão macro | 0.9790 |
+| Revocação macro | 0.9770 |
 | F1 macro | 0.9775 |
 
 O requisito minimo do desafio era assertividade acima de 75%, portanto o modelo atende ao criterio.
@@ -96,7 +96,7 @@ python scripts/tune_models.py --n-iter 8 --cv 3
 Resultados importantes:
 
 - Modelo completo: F1 macro medio 0.9868.
-- Sem features derivadas redundantes: F1 macro medio 0.9627.
+- Sem atributos derivados redundantes: F1 macro médio 0.9627.
 - Modelo preventivo/comportamental: F1 macro medio 0.8791.
 - Modelo tunado: F1 macro em teste 0.9749, nao superou o modelo final.
 
@@ -140,8 +140,8 @@ streamlit run app/streamlit_app.py
 A aplicacao possui:
 
 - Predicao individual.
-- Visao analitica com distribuicoes e insights.
-- Informacoes do modelo, metricas, tuning, matriz de confusao e importancia de features.
+- Visão analítica com distribuições e análises.
+- Informações do modelo, métricas, otimização, matriz de confusão e importância dos atributos.
 
 ## Artefatos
 
@@ -166,7 +166,7 @@ models/tuned_metrics.json
 Preencher antes do envio final:
 
 - App Streamlit: `TODO`
-- Dashboard: `TODO`
+- Painel: `TODO`
 - Repositorio GitHub: `TODO`
 - Video: `TODO`
 

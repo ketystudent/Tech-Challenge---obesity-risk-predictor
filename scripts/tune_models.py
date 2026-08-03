@@ -139,9 +139,9 @@ def main() -> None:
 
     print("Tuning finished.")
     print(tuning_results.to_string(index=False))
-    print(f"\nBest tuned model: {winner_name}")
-    print(f"Tuned test accuracy: {metrics['accuracy']:.4f}")
-    print(f"Tuned test F1 macro: {metrics['f1_macro']:.4f}")
+    print(f"\nMelhor modelo otimizado: {winner_name}")
+    print(f"Acurácia do modelo otimizado no teste: {metrics['accuracy']:.4f}")
+    print(f"F1 macro do modelo otimizado no teste: {metrics['f1_macro']:.4f}")
     if current_f1 is not None:
         print(f"Current final F1 macro: {current_f1:.4f}")
     print(f"Promoted to final artifacts: {promoted}")

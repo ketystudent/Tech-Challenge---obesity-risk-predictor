@@ -1,6 +1,6 @@
 # Dicionario de Dados
 
-Dataset: `data/raw/Obesity.csv`
+Conjunto de dados: `data/raw/Obesity.csv`
 
 O objetivo e prever a coluna `Obesity`, que representa o nivel de obesidade/peso do paciente.
 
@@ -36,9 +36,9 @@ O objetivo e prever a coluna `Obesity`, que representa o nivel de obesidade/peso
 | `Obesity_Type_II` | Obesidade tipo II |
 | `Obesity_Type_III` | Obesidade tipo III |
 
-## Features Criadas na Pipeline
+## Atributos Criados na Pipeline
 
-| Feature | Origem | Observacao |
+| Atributo | Origem | Observação |
 |---|---|---|
 | `BMI` | `Weight / Height^2` | Sinal clinico forte; pode aumentar muito o desempenho. |
 | `BMI_Class` | Faixas fixas de IMC | Criada com `pd.cut`, sem aprender quantis da base inteira. |
@@ -49,4 +49,3 @@ O objetivo e prever a coluna `Obesity`, que representa o nivel de obesidade/peso
 | `Good_Hydration` | `CH2O >= 2` | Indicador binario de hidratacao. |
 | `High_Screen_Time` | `TUE >= 2` | Indicador binario de alto tempo de tela. |
 | `Healthy_Score` | Soma de indicadores | Pontuacao simples de habitos saudaveis. |
-

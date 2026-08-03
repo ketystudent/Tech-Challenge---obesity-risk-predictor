@@ -14,14 +14,14 @@ from src.config import RAW_DATA_PATH, REPORTS_DIR, TARGET_COLUMN
 from src.data_loading import load_obesity_data
 from app.ui import apply_theme, metric_card, render_page_header, render_sidebar, render_status_bar
 
-st.set_page_config(page_title="Visao Analitica | VitaCare", layout="wide")
+st.set_page_config(page_title="Visão Analítica | VitaCare", layout="wide")
 apply_theme()
 render_sidebar()
 render_page_header(
-    "Visao analitica",
-    "Painel de exploracao dos dados, perfil clinico e habitos associados aos niveis de obesidade.",
+    "Visão analítica",
+    "Painel de exploração dos dados, perfil clínico e hábitos associados aos níveis de obesidade.",
 )
-render_status_bar("Dados carregados", "Base limpa e relatorios analiticos disponiveis")
+render_status_bar("Dados carregados", "Base limpa e relatórios analíticos disponíveis")
 
 try:
     df = load_obesity_data(RAW_DATA_PATH)
@@ -40,14 +40,14 @@ else:
 
 col1, col2, col3 = st.columns(3)
 with col1:
-    metric_card("Registros", f"{len(df_clean):,}".replace(",", "."), "Apos remocao de duplicatas")
+    metric_card("Registros", f"{len(df_clean):,}".replace(",", "."), "Após remoção de duplicatas")
 with col2:
-    metric_card("Colunas", str(df.shape[1]), "Variaveis da base original")
+    metric_card("Colunas", str(df.shape[1]), "Variáveis da base original")
 with col3:
     metric_card("Duplicatas", str(int(df.duplicated().sum())), "Registros removidos na modelagem")
 
 tab_overview, tab_profile, tab_behavior, tab_figures, tab_data = st.tabs(
-    ["Resumo", "Perfil Clinico", "Habitos", "Figuras", "Dados"]
+    ["Resumo", "Perfil Clínico", "Hábitos", "Figuras", "Dados"]
 )
 
 
@@ -63,7 +63,7 @@ def plot_grouped_rate(column: str, title: str):
     ax.set_title(title)
     ax.set_xlabel(column)
     ax.set_ylabel("% dentro do grupo")
-    ax.legend(title="Nivel", bbox_to_anchor=(1.02, 1), loc="upper left")
+    ax.legend(title="Nível", bbox_to_anchor=(1.02, 1), loc="upper left")
     plt.xticks(rotation=25, ha="right")
     plt.tight_layout()
     st.pyplot(fig)
@@ -75,7 +75,7 @@ def plot_box(column: str, title: str):
     fig, ax = plt.subplots(figsize=(12, 5))
     ax.boxplot(values, tick_labels=classes, patch_artist=True)
     ax.set_title(title)
-    ax.set_xlabel("Nivel de obesidade")
+    ax.set_xlabel("Nível de obesidade")
     ax.set_ylabel(column)
     plt.xticks(rotation=30, ha="right")
     plt.tight_layout()
@@ -85,7 +85,7 @@ def plot_box(column: str, title: str):
 with tab_overview:
     left, right = st.columns([1, 1])
     with left:
-        st.subheader("Distribuicao do nivel de obesidade")
+        st.subheader("Distribuição do nível de obesidade")
         target_distribution = df_clean[TARGET_COLUMN].value_counts()
         st.bar_chart(target_distribution)
     with right:
@@ -97,9 +97,9 @@ with tab_overview:
             <div class="vc-card">
                 <div class="vc-card-title">Leitura executiva</div>
                 <div class="vc-card-muted">
-                    A base possui {len(df_clean)} registros apos remover {duplicates} duplicatas.
+                    A base possui {len(df_clean)} registros após remover {duplicates} duplicatas.
                     O total de valores ausentes encontrados foi {missing_total}. As classes apresentam
-                    distribuicao relativamente equilibrada, e peso/altura concentram grande parte do
+                    distribuição relativamente equilibrada, e peso/altura concentram grande parte do
                     sinal preditivo.
                 </div>
             </div>
@@ -107,37 +107,37 @@ with tab_overview:
             unsafe_allow_html=True,
         )
 
-    st.subheader("Resumo numerico")
+    st.subheader("Resumo numérico")
     st.dataframe(df_clean.describe(), use_container_width=True)
 
 with tab_profile:
     col_age, col_weight = st.columns(2)
     with col_age:
-        plot_box("Age", "Idade por nivel de obesidade")
+        plot_box("Age", "Idade por nível de obesidade")
     with col_weight:
-        plot_box("Weight", "Peso por nivel de obesidade")
+        plot_box("Weight", "Peso por nível de obesidade")
 
     fig, ax = plt.subplots(figsize=(10, 6))
     for class_name in sorted(df_clean[TARGET_COLUMN].unique()):
         subset = df_clean[df_clean[TARGET_COLUMN] == class_name]
         ax.scatter(subset["Height"], subset["Weight"], alpha=0.65, s=25, label=class_name)
-    ax.set_title("Peso e altura por nivel de obesidade")
+    ax.set_title("Peso e altura por nível de obesidade")
     ax.set_xlabel("Altura (m)")
     ax.set_ylabel("Peso (kg)")
-    ax.legend(title="Nivel", bbox_to_anchor=(1.02, 1), loc="upper left")
+    ax.legend(title="Nível", bbox_to_anchor=(1.02, 1), loc="upper left")
     plt.tight_layout()
     st.pyplot(fig)
 
 with tab_behavior:
     col_a, col_b = st.columns(2)
     with col_a:
-        plot_grouped_rate("family_history", "Historico familiar por nivel de obesidade")
-        plot_grouped_rate("FAVC", "Consumo frequente de alimentos caloricos")
+        plot_grouped_rate("family_history", "Histórico familiar por nível de obesidade")
+        plot_grouped_rate("FAVC", "Consumo frequente de alimentos calóricos")
     with col_b:
-        plot_grouped_rate("CAEC", "Consumo entre refeicoes")
+        plot_grouped_rate("CAEC", "Consumo entre refeições")
         plot_grouped_rate("MTRANS", "Meio de transporte")
 
-    st.subheader("Medias de habitos por classe")
+    st.subheader("Médias de hábitos por classe")
     habit_summary = (
         df_clean.groupby(TARGET_COLUMN)[["FCVC", "NCP", "CH2O", "FAF", "TUE"]]
         .mean()
@@ -148,9 +148,9 @@ with tab_behavior:
 
 with tab_figures:
     figure_files = [
-        ("Distribuicao do alvo", "target_distribution.png"),
-        ("Histogramas numericos", "numeric_histograms.png"),
-        ("Correlacao numerica", "numeric_correlation_heatmap.png"),
+        ("Distribuição do alvo", "target_distribution.png"),
+        ("Histogramas numéricos", "numeric_histograms.png"),
+        ("Correlação numérica", "numeric_correlation_heatmap.png"),
         ("Peso x altura", "weight_height_by_obesity.png"),
         ("Idade por classe", "age_by_obesity.png"),
         ("Peso por classe", "weight_by_obesity.png"),
@@ -161,13 +161,13 @@ with tab_figures:
             st.subheader(title)
             st.image(str(path), use_container_width=True)
         else:
-            st.info(f"Figura ainda nao gerada: {filename}")
+            st.info(f"Figura ainda não gerada: {filename}")
 
 with tab_data:
     st.subheader("Amostra dos dados")
     st.dataframe(df_clean.head(100), use_container_width=True)
 
-    st.subheader("Valores unicos categoricos")
+    st.subheader("Valores únicos categóricos")
     categorical_summary = {
         column: ", ".join(sorted(df_clean[column].dropna().astype(str).unique()))
         for column in df_clean.select_dtypes(include="object").columns
