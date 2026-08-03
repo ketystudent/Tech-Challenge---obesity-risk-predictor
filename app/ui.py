@@ -51,6 +51,16 @@ def apply_theme() -> None:
             color: #ffffff;
         }
 
+        /* Mantém o arquivo de entrada esperado pelo deploy e melhora seu nome no menu. */
+        [data-testid="stSidebarNavItems"] li:first-child a span {
+            font-size: 0;
+        }
+
+        [data-testid="stSidebarNavItems"] li:first-child a span::after {
+            content: "Início";
+            font-size: 1rem;
+        }
+
         .block-container {
             padding-top: 2.2rem;
             padding-bottom: 3rem;
