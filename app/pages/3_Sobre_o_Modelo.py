@@ -2,6 +2,8 @@ import json
 import sys
 from pathlib import Path
 
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import streamlit as st
 
@@ -70,14 +72,49 @@ if METRICS_PATH.exists():
             use_container_width=True,
             hide_index=True,
         )
-        st.bar_chart(
-            comparacao_modelos,
-            x="Modelo",
-            y=["Acurácia média", "F1 macro médio"],
-            horizontal=True,
-            x_label="Score médio",
-            y_label="Modelo",
+        modelos_grafico = comparacao_modelos.sort_values("F1 macro médio", ascending=False)
+        posicoes = np.arange(len(modelos_grafico))
+        fig, ax = plt.subplots(figsize=(11, 5.5))
+        ax.hlines(
+            y=posicoes,
+            xmin=modelos_grafico["F1 macro médio"],
+            xmax=modelos_grafico["Acurácia média"],
+            color="#b8cbd7",
+            linewidth=3,
         )
+        ax.scatter(
+            modelos_grafico["Acurácia média"], posicoes,
+            color="#0f9f9a", s=90, label="Acurácia média", zorder=3,
+        )
+        ax.scatter(
+            modelos_grafico["F1 macro médio"], posicoes,
+            color="#072b4a", s=90, label="F1 macro médio", zorder=3,
+        )
+        for posicao, (_, linha) in enumerate(modelos_grafico.iterrows()):
+            ax.annotate(
+                f"{linha['F1 macro médio']:.4f}",
+                (linha["F1 macro médio"], posicao),
+                xytext=(-8, 9), textcoords="offset points", ha="right", fontsize=8,
+            )
+            ax.annotate(
+                f"{linha['Acurácia média']:.4f}",
+                (linha["Acurácia média"], posicao),
+                xytext=(8, -14), textcoords="offset points", ha="left", fontsize=8,
+            )
+        menor_score = min(
+            modelos_grafico["Acurácia média"].min(),
+            modelos_grafico["F1 macro médio"].min(),
+        )
+        ax.set_xlim(max(0, menor_score - 0.025), 1.005)
+        ax.set_yticks(posicoes, modelos_grafico["Modelo"])
+        ax.invert_yaxis()
+        ax.set_xlabel("Score médio na validação cruzada")
+        ax.set_title("Acurácia e F1 macro por modelo")
+        ax.grid(axis="x", alpha=0.2)
+        ax.spines[["top", "right", "left"]].set_visible(False)
+        ax.legend(loc="lower right")
+        plt.tight_layout()
+        st.pyplot(fig)
         botao_download_csv(
             comparacao_modelos,
             "comparacao_scores_modelos.csv",

@@ -44,25 +44,25 @@ def traduzir_opcao(valor: str) -> str:
 
 
 ESCALA_VEGETAIS = {
-    1: "1 — Nunca",
-    2: "2 — Às vezes",
-    3: "3 — Sempre",
+    1: "Nunca",
+    2: "Às vezes",
+    3: "Sempre",
 }
 ESCALA_ATIVIDADE = {
-    0: "0 — Não pratica",
-    1: "1 — 1 a 2 dias por semana",
-    2: "2 — 2 a 4 dias por semana",
-    3: "3 — 4 a 5 dias por semana",
+    0: "Não pratica",
+    1: "1 a 2 vezes por semana",
+    2: "2 a 4 vezes por semana",
+    3: "4 a 5 vezes por semana",
 }
 ESCALA_TEMPO_TELA = {
-    0: "0 — Até 2 horas por dia",
-    1: "1 — De 3 a 5 horas por dia",
-    2: "2 — Mais de 5 horas por dia",
+    0: "Até 2 horas por dia",
+    1: "De 3 a 5 horas por dia",
+    2: "Mais de 5 horas por dia",
 }
 ESCALA_AGUA = {
-    1: "1 — Menos de 1 litro por dia",
-    2: "2 — Entre 1 e 2 litros por dia",
-    3: "3 — Mais de 2 litros por dia",
+    1: "Menos de 1 litro por dia",
+    2: "Entre 1 e 2 litros por dia",
+    3: "Mais de 2 litros por dia",
 }
 
 INTERPRETACOES = {

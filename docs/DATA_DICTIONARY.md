@@ -18,7 +18,7 @@ O objetivo e prever a coluna `Obesity`, que representa o nivel de obesidade/peso
 | `SMOKE` | Categórica | Indicador se fuma. | `yes`, `no` |
 | `CH2O` | Numérica ordinal | Consumo diário de água. | 1: menos de 1 L; 2: entre 1 e 2 L; 3: mais de 2 L |
 | `SCC` | Categórica | Monitoramento de calorias ingeridas. | `yes`, `no` |
-| `FAF` | Numérica ordinal | Frequência semanal de atividade física. | 0: não pratica; 1: 1–2 dias; 2: 2–4 dias; 3: 4–5 dias |
+| `FAF` | Numérica ordinal | Frequência semanal de atividade física. | 0: não pratica; 1: 1–2 vezes; 2: 2–4 vezes; 3: 4–5 vezes |
 | `TUE` | Numérica ordinal | Tempo diário de uso de dispositivos tecnológicos. | 0: até 2 h; 1: 3–5 h; 2: mais de 5 h |
 | `CALC` | Categórica ordinal | Frequencia de consumo de alcool. | `no`, `Sometimes`, `Frequently`, `Always` |
 | `MTRANS` | Categórica | Meio de transporte usual. | `Walking`, `Bike`, `Motorbike`, `Automobile`, `Public_Transportation` |
