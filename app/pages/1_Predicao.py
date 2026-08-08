@@ -145,6 +145,11 @@ with st.form("prediction_form"):
 
 if submitted:
     input_data = {
+        # Compatibilidade temporária com processos que ainda tenham a versão
+        # anterior do validador em memória. O pipeline preventivo descarta estas
+        # colunas e, portanto, elas não participam da predição.
+        "Height": 0.0,
+        "Weight": 0.0,
         "Gender": gender,
         "Age": age,
         "family_history": family_history,
