@@ -114,38 +114,7 @@ df["Faixa etária"] = pd.cut(
     labels=["Até 17", "18–29", "30–39", "40–49", "50–59", "60 ou mais"],
 )
 
-st.markdown("### Filtros da população")
-filtro_1, filtro_2, filtro_3 = st.columns([1, 1, 2])
-with filtro_1:
-    generos = st.multiselect(
-        "Gênero",
-        ["Female", "Male"],
-        format_func=lambda x: ROTULOS_VALORES[x],
-        placeholder="Todos os gêneros",
-    )
-with filtro_2:
-    faixas = st.multiselect(
-        "Faixa etária",
-        list(df["Faixa etária"].cat.categories),
-        placeholder="Todas as faixas etárias",
-    )
-with filtro_3:
-    classes = st.multiselect(
-        "Nível de peso", CLASS_ORDER, format_func=lambda x: CLASS_LABELS_PT[x],
-        placeholder="Todas as classificações",
-    )
-
 df_filtrado = df.copy()
-if generos:
-    df_filtrado = df_filtrado[df_filtrado["Gender"].isin(generos)]
-if faixas:
-    df_filtrado = df_filtrado[df_filtrado["Faixa etária"].isin(faixas)]
-if classes:
-    df_filtrado = df_filtrado[df_filtrado[TARGET_COLUMN].isin(classes)]
-
-if df_filtrado.empty:
-    st.warning("Nenhum registro corresponde aos filtros selecionados.")
-    st.stop()
 
 total = len(df_filtrado)
 obesidade = df_filtrado[TARGET_COLUMN].isin(CLASSES_OBESIDADE).sum()
@@ -162,11 +131,16 @@ st.caption(
     "Os achados apoiam a triagem, mas não substituem anamnese, exame físico ou julgamento clínico."
 )
 
-tab_resumo, tab_recortes, tab_perfil, tab_habitos, tab_dados = st.tabs(
-    ["Visão executiva", "Gênero e idade", "Perfil antropométrico", "Hábitos e contexto", "Dados da população"]
+tab_resumo, tab_perfil, tab_habitos, tab_dados = st.tabs(
+    ["Visão executiva", "Perfil antropométrico", "Hábitos e contexto", "Dados da população"]
 )
 
 with tab_resumo:
+    st.markdown("### 1. Panorama geral da população estudada")
+    st.write(
+        "A leitura começa pela distribuição global dos níveis de peso e avança para os recortes de gênero, "
+        "idade e hábitos. Todos os indicadores usam a base completa após a remoção de duplicatas."
+    )
     grafico, leitura = st.columns([1.25, 1])
     with grafico:
         st.subheader("Distribuição dos níveis de peso")
@@ -206,7 +180,7 @@ with tab_resumo:
             "e hábitos modificáveis antes de definir qualquer encaminhamento."
         )
 
-    st.subheader("Indicadores para planejamento do cuidado")
+    st.subheader("Indicadores iniciais para planejamento do cuidado")
     base_taxa = taxa_obesidade(df)
     historico_sim = df[df["family_history"] == "yes"]
     baixa_atividade = df[df["FAF"] < 1]
@@ -232,8 +206,12 @@ with tab_resumo:
         "Comparações descritivas calculadas na base completa. Diferenças em pontos percentuais indicam associação observada, não causalidade."
     )
 
-with tab_recortes:
-    st.subheader("Distribuição dos níveis de peso por gênero")
+with tab_resumo:
+    st.markdown("---")
+    st.markdown("### 2. Como os níveis de peso se distribuem entre mulheres e homens")
+    st.write(
+        "A composição percentual permite comparar os grupos mesmo quando eles possuem quantidades diferentes de registros."
+    )
     distribuicao_genero = (
         pd.crosstab(df_filtrado["Gender"], df_filtrado[TARGET_COLUMN], normalize="index")
         .reindex(columns=CLASS_ORDER, fill_value=0)
@@ -251,7 +229,7 @@ with tab_recortes:
     plt.tight_layout()
     st.pyplot(fig)
 
-    st.subheader("Distribuição dos níveis de peso por faixa etária")
+    st.markdown("### 3. Como a distribuição muda ao longo das faixas etárias")
     distribuicao_idade = (
         pd.crosstab(df_filtrado["Faixa etária"], df_filtrado[TARGET_COLUMN], normalize="index")
         .reindex(columns=CLASS_ORDER, fill_value=0)
@@ -268,7 +246,7 @@ with tab_recortes:
     plt.tight_layout()
     st.pyplot(fig)
 
-    st.subheader("Onde a obesidade está mais concentrada na base")
+    st.markdown("### 4. Grupos com maior concentração e menor representação")
     analise = df_filtrado.assign(
         Com_obesidade=df_filtrado[TARGET_COLUMN].isin(CLASSES_OBESIDADE),
         Com_excesso=df_filtrado[TARGET_COLUMN].isin(CLASSES_EXCESSO),
@@ -327,7 +305,7 @@ with tab_recortes:
         key="download_sensibilidade_demografica",
     )
 
-    st.subheader("Associação dos hábitos com obesidade")
+    st.markdown("### 5. Como os hábitos se associam à obesidade em cada grupo")
     habito_recorte = st.selectbox(
         "Hábito para comparar por gênero e idade",
         ["family_history", "FAVC", "FCVC", "FAF", "CH2O", "TUE", "CAEC"],
