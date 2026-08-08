@@ -57,6 +57,23 @@ def formatar_delta(valor: float) -> str:
     return f"{sinal}{valor:.1f} p.p. vs. população total"
 
 
+def adicionar_rotulos_percentuais(ax: plt.Axes, tamanho_fonte: int = 8) -> None:
+    """Exibe o percentual no centro de cada segmento de uma barra empilhada."""
+    for container in ax.containers:
+        cor = container.patches[0].get_facecolor() if container.patches else (1, 1, 1, 1)
+        luminancia = 0.299 * cor[0] + 0.587 * cor[1] + 0.114 * cor[2]
+        cor_texto = "#102542" if luminancia > 0.62 else "white"
+        rotulos = [f"{barra.get_width():.1f}%" if barra.get_width() > 0 else "" for barra in container]
+        ax.bar_label(
+            container,
+            labels=rotulos,
+            label_type="center",
+            color=cor_texto,
+            fontsize=tamanho_fonte,
+            fontweight="bold",
+        )
+
+
 def traduzir_dataframe(base: pd.DataFrame) -> pd.DataFrame:
     exibicao = base.rename(columns=ROTULOS_COLUNAS).copy()
     for coluna in exibicao.select_dtypes(include="object").columns:
@@ -221,6 +238,7 @@ with tab_resumo:
     distribuicao_genero.columns = [CLASS_LABELS_PT[coluna] for coluna in distribuicao_genero.columns]
     fig, ax = plt.subplots(figsize=(11, 4.5))
     distribuicao_genero.plot(kind="barh", stacked=True, ax=ax, color=CORES_CLASSES)
+    adicionar_rotulos_percentuais(ax, tamanho_fonte=8)
     ax.set_xlabel("Composição dentro de cada gênero (%)")
     ax.set_ylabel("Gênero")
     ax.set_xlim(0, 100)
@@ -238,6 +256,7 @@ with tab_resumo:
     distribuicao_idade.columns = [CLASS_LABELS_PT[coluna] for coluna in distribuicao_idade.columns]
     fig, ax = plt.subplots(figsize=(11, 5.5))
     distribuicao_idade.plot(kind="barh", stacked=True, ax=ax, color=CORES_CLASSES)
+    adicionar_rotulos_percentuais(ax, tamanho_fonte=7)
     ax.set_xlabel("Composição dentro de cada faixa etária (%)")
     ax.set_ylabel("Faixa etária")
     ax.set_xlim(0, 100)
