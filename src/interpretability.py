@@ -5,9 +5,19 @@ from src.config import RANDOM_STATE
 
 
 def compute_permutation_importance(pipeline, X, y, n_repeats: int = 10) -> pd.DataFrame:
+    preprocessor = pipeline.named_steps["preprocessor"]
+    used_columns = {
+        column
+        for _, transformer, columns in preprocessor.transformers_
+        if transformer != "drop"
+        if isinstance(columns, (list, tuple))
+        for column in columns
+    }
+    original_used_columns = [column for column in X.columns if column in used_columns]
+    X_evaluated = X[original_used_columns]
     result = permutation_importance(
         pipeline,
-        X,
+        X_evaluated,
         y,
         n_repeats=n_repeats,
         random_state=RANDOM_STATE,
@@ -15,7 +25,7 @@ def compute_permutation_importance(pipeline, X, y, n_repeats: int = 10) -> pd.Da
     )
     return pd.DataFrame(
         {
-            "feature": X.columns,
+            "feature": X_evaluated.columns,
             "importance_mean": result.importances_mean,
             "importance_std": result.importances_std,
         }

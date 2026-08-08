@@ -1,3 +1,4 @@
+import json
 import sys
 from pathlib import Path
 
@@ -8,6 +9,9 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from app.ui import apply_theme, metric_card, render_page_header, render_sidebar, render_status_bar
+from src.config import METRICS_PATH
+
+metrics = json.loads(METRICS_PATH.read_text(encoding="utf-8")) if METRICS_PATH.exists() else {}
 
 st.set_page_config(page_title="Início | VitaCare", layout="wide")
 apply_theme()
@@ -25,8 +29,9 @@ st.markdown(
         <div class="vc-card-title">Objetivo da aplicação</div>
         <div class="vc-card-muted">
             O VitaCare foi desenvolvido para apoiar a triagem e a discussão clínica sobre o estado
-            nutricional. A aplicação combina medidas antropométricas, características pessoais e
-            hábitos de vida para estimar uma entre sete classificações de peso e obesidade. Também
+            nutricional. A aplicação combina características pessoais, histórico familiar e
+            hábitos de vida para estimar tendências associadas a sete níveis de peso e obesidade,
+            sem utilizar peso, altura ou IMC como preditores. Também
             oferece uma visão analítica da população estudada, permitindo identificar padrões que
             podem orientar ações de prevenção, acompanhamento e educação em saúde.
         </div>
@@ -42,8 +47,8 @@ with col_predicao:
     with st.container(border=True):
         st.subheader("Predição individual")
         st.write(
-            "Registre os dados de uma pessoa para obter a classificação estimada, o IMC, "
-            "as probabilidades do modelo e pontos de verificação para a avaliação clínica."
+            "Registre hábitos e histórico de uma pessoa para obter a tendência estimada, "
+            "as probabilidades do modelo e pontos de verificação para a avaliação preventiva."
         )
         st.page_link("pages/1_Predicao.py", label="Acessar predição", icon="🩺")
 
@@ -78,9 +83,9 @@ with col_links:
 st.markdown("### Como utilizar")
 etapa1, etapa2, etapa3 = st.columns(3)
 with etapa1:
-    metric_card("1. Informe", "Dados", "Preencha medidas e hábitos com informações atualizadas")
+    metric_card("1. Informe", "Dados", "Preencha histórico e hábitos com informações atualizadas")
 with etapa2:
-    metric_card("2. Analise", "Resultado", "Observe a classificação, o IMC e as probabilidades")
+    metric_card("2. Analise", "Resultado", "Observe a tendência e a distribuição das probabilidades")
 with etapa3:
     metric_card("3. Contextualize", "Cuidado", "Combine o resultado com avaliação clínica profissional")
 
@@ -88,13 +93,18 @@ st.markdown("### Escopo do estudo")
 dado1, dado2, dado3 = st.columns(3)
 dado1.metric("Registros analisados", "2.087", "Após remoção de duplicatas")
 dado2.metric("Classificações", "7", "De peso insuficiente à obesidade tipo III")
-dado3.metric("F1 macro do modelo", "0,9775", "Resultado no conjunto de teste")
+dado3.metric(
+    "F1 macro do modelo",
+    f"{metrics.get('f1_macro', 0):.4f}".replace(".", ","),
+    "Modelo preventivo no conjunto de teste",
+)
 
 st.markdown(
     """
     <div class="vc-warning-card">
         <strong>Uso responsável:</strong> o VitaCare é um projeto acadêmico de apoio à decisão.
-        A estimativa não constitui diagnóstico e não deve ser utilizada isoladamente para definir
+        A estimativa comportamental não constitui diagnóstico nem confirma o estado nutricional atual.
+        Não deve ser utilizada isoladamente para definir
         tratamento. Confirme as medidas e considere anamnese, exame físico, contexto psicossocial,
         comorbidades e protocolos assistenciais aplicáveis.
     </div>

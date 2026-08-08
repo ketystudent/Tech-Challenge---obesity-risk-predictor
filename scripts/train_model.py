@@ -23,9 +23,9 @@ from src.modeling import train_and_save_final_model
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train and export the final obesity prediction model.")
     parser.add_argument(
-        "--without-bmi",
+        "--full-anthropometric",
         action="store_true",
-        help="Train a behavioral/preventive model without engineered BMI.",
+        help="Treina o cenário antropométrico completo com peso, altura, IMC e derivados.",
     )
     parser.add_argument(
         "--keep-duplicates",
@@ -43,7 +43,15 @@ def main() -> None:
     if duplicates and not args.keep_duplicates:
         df = df.drop_duplicates().reset_index(drop=True)
 
-    _, _, metrics = train_and_save_final_model(df, include_bmi=not args.without_bmi)
+    if args.full_anthropometric:
+        _, _, metrics = train_and_save_final_model(
+            df,
+            include_bmi=True,
+            include_weight_class=True,
+            excluded_columns=[],
+        )
+    else:
+        _, _, metrics = train_and_save_final_model(df)
 
     print("Training finished.")
     print(f"Rows used: {len(df)}")

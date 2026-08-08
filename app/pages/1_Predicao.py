@@ -18,16 +18,16 @@ st.set_page_config(page_title="Predição | VitaCare", layout="wide")
 apply_theme()
 render_sidebar()
 render_page_header(
-    "Predição individual",
-    "Preencha os dados do paciente para estimar o nível de obesidade e visualizar as probabilidades por classe.",
+    "Tendência individual",
+    "Informe hábitos e histórico para estimar a tendência associada aos níveis de peso, sem utilizar peso, altura ou IMC.",
 )
 render_status_bar("Formulário pronto", "Pipeline final carregada para inferência")
 
 top1, top2, top3 = st.columns(3)
 with top1:
-    metric_card("Modelo", "Floresta Aleatória", "Classificação multiclasse")
+    metric_card("Modelo", "Preventivo", "Sem peso, altura ou IMC")
 with top2:
-    metric_card("F1 macro", "0.9775", "Métrica final do teste")
+    metric_card("Objetivo", "Tendência", "Perfil comportamental e histórico")
 with top3:
     metric_card("Classes", "7", "Níveis de peso e obesidade")
 
@@ -78,16 +78,16 @@ INTERPRETACOES = {
 
 def orientacoes_clinicas(classe: str) -> list[str]:
     orientacoes = [
-        "Confirmar peso e altura aferidos e interpretar o IMC no contexto de idade e condições individuais.",
+        "Interpretar a tendência como sinal de triagem, sem utilizá-la como classificação antropométrica ou diagnóstico.",
         "Revisar histórico de saúde, medicamentos, hábitos, aspectos psicossociais e objetivos da pessoa.",
     ]
     if classe == "Insufficient_Weight":
         orientacoes.append("Investigar evolução ponderal, ingestão alimentar e possível perda de peso não intencional.")
     elif classe == "Normal_Weight":
-        orientacoes.append("Manter acompanhamento longitudinal e ações de promoção de alimentação e atividade física adequadas.")
+        orientacoes.append("Manter acompanhamento longitudinal; uma tendência baixa não exclui alterações antropométricas atuais.")
     else:
         orientacoes.extend([
-            "Avaliar circunferência da cintura, pressão arterial e risco cardiovascular, quando aplicável.",
+            "Confirmar o estado nutricional com medidas antropométricas e avaliação profissional, quando aplicável.",
             "Pesquisar comorbidades e construir um plano de cuidado compartilhado, sem estigma e conforme julgamento clínico.",
         ])
     return orientacoes
@@ -100,8 +100,6 @@ with st.form("prediction_form"):
     with col1:
         gender = st.selectbox("Gênero", ["Male", "Female"], format_func=traduzir_opcao)
         age = st.number_input("Idade (anos)", min_value=1, max_value=120, value=25, step=1)
-        height = st.number_input("Altura (m)", min_value=0.5, max_value=2.5, value=1.70, step=0.01)
-        weight = st.number_input("Peso (kg)", min_value=10.0, max_value=300.0, value=75.0, step=1.0)
         family_history = st.selectbox("Histórico familiar de sobrepeso", ["yes", "no"], format_func=traduzir_opcao)
         favc = st.selectbox("Consome alimentos calóricos frequentemente", ["yes", "no"], format_func=traduzir_opcao)
 
@@ -149,8 +147,6 @@ if submitted:
     input_data = {
         "Gender": gender,
         "Age": age,
-        "Height": height,
-        "Weight": weight,
         "family_history": family_history,
         "FAVC": favc,
         "FCVC": fcvc,
@@ -167,7 +163,6 @@ if submitted:
 
     try:
         result = predict_obesity(input_data)
-        imc = weight / (height ** 2)
         probabilidades_ordenadas = sorted(
             result["probabilities"].items(), key=lambda item: item[1], reverse=True
         )
@@ -175,7 +170,7 @@ if submitted:
         alternativa = probabilidades_ordenadas[1] if len(probabilidades_ordenadas) > 1 else None
 
         result_card(
-            "Classificação estimada pelo modelo",
+            "Tendência estimada pelo modelo",
             result["predicted_label"],
             INTERPRETACOES.get(result["predicted_class"], "Resultado calculado a partir dos dados informados."),
         )
@@ -187,9 +182,9 @@ if submitted:
             help="Probabilidade produzida pelo modelo; não equivale à certeza diagnóstica.",
         )
         resumo2.metric(
-            "IMC calculado",
-            f"{imc:.1f} kg/m²",
-            help="Calculado como peso dividido pela altura ao quadrado.",
+            "Fatores considerados",
+            "14",
+            help="Características pessoais, histórico familiar e hábitos. Peso, altura e IMC não são utilizados.",
         )
         segunda_classe = (
             CLASS_LABELS_PT.get(alternativa[0], alternativa[0]) if alternativa else "Indisponível"
@@ -214,31 +209,29 @@ if submitted:
                 "O modelo apresentou baixa separação entre as classificações. Dê atenção especial às alternativas e confirme os dados informados."
             )
 
-        st.subheader("Interpretação clínica sugerida")
+        st.subheader("Interpretação preventiva sugerida")
         st.markdown(
             "\n".join(f"- {orientacao}" for orientacao in orientacoes_clinicas(result["predicted_class"]))
         )
 
         if age < 18:
             st.warning(
-                "Paciente menor de 18 anos: a interpretação do IMC deve considerar idade e sexo em curvas específicas. "
-                "Não utilize pontos de corte de adultos."
+                "Pessoa menor de 18 anos: este resultado não substitui a avaliação nutricional específica por idade e sexo."
             )
         elif age >= 60:
             st.info(
-                "Em pessoas idosas, o IMC exige interpretação específica e deve ser complementado pela avaliação clínica e funcional."
+                "Em pessoas idosas, complemente a tendência com avaliação clínica, nutricional e funcional específica."
             )
 
         with st.expander("Resumo dos dados informados"):
             resumo_paciente = pd.DataFrame(
                 {
                     "Indicador": [
-                        "Idade", "Altura", "Peso", "Histórico familiar", "Atividade física",
+                        "Idade", "Histórico familiar", "Atividade física",
                         "Consumo de água", "Tempo em dispositivos",
                     ],
                     "Valor informado": [
-                        f"{age} anos", f"{height:.2f} m", f"{weight:.1f} kg",
-                        traduzir_opcao(family_history), ESCALA_ATIVIDADE[faf], ESCALA_AGUA[ch2o],
+                        f"{age} anos", traduzir_opcao(family_history), ESCALA_ATIVIDADE[faf], ESCALA_AGUA[ch2o],
                         ESCALA_TEMPO_TELA[tue],
                     ],
                 }
@@ -274,7 +267,7 @@ if submitted:
             st.pyplot(fig)
 
         st.caption(
-            "Ferramenta acadêmica de apoio à decisão. O resultado não constitui diagnóstico nem substitui avaliação profissional. "
+            "Ferramenta acadêmica de apoio preventivo. A tendência não constitui diagnóstico nem substitui avaliação profissional. "
             "Referência clínica: Ministério da Saúde — Linha de Cuidado da Obesidade no Adulto."
         )
         st.link_button(

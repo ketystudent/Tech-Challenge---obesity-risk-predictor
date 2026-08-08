@@ -20,7 +20,7 @@ apply_theme()
 render_sidebar()
 render_page_header(
     "Informações do modelo",
-    "Métricas, otimização, matriz de confusão e interpretabilidade da pipeline final.",
+    "Métricas, comparação, matriz de confusão e interpretabilidade do modelo preventivo.",
 )
 render_status_bar("Modelo validado", "Artefatos finais carregados para auditoria")
 
@@ -128,11 +128,25 @@ if MODEL_METADATA_PATH.exists():
     st.subheader("Metadados")
     st.json(metadata)
 else:
+    metadata = {}
     st.info("Metadados ainda não encontrados.")
 
-st.subheader("Otimização")
+preventive_model = metadata.get("model_purpose") == "preventive_behavioral_tendency"
+
+if preventive_model:
+    st.subheader("Configuração preventiva")
+    st.info(
+        "O modelo final não utiliza peso, altura, IMC ou classes derivadas dessas medidas. "
+        "A redução de desempenho é esperada e evita que a estimativa apenas reproduza a classificação antropométrica."
+    )
+
+st.subheader("Otimização anterior" if preventive_model else "Otimização")
 tuning_results_path = REPORTS_DIR / "model_results" / "tuning_results.csv"
-if tuning_results_path.exists():
+if preventive_model:
+    st.caption(
+        "Os artefatos de otimização existentes pertencem ao cenário antropométrico anterior e não são usados pelo modelo publicado."
+    )
+elif tuning_results_path.exists():
     tuning_results = pd.read_csv(tuning_results_path)
     st.dataframe(tuning_results, use_container_width=True)
     botao_download_csv(

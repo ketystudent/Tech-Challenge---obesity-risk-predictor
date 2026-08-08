@@ -36,7 +36,9 @@ O objetivo e prever a coluna `Obesity`, que representa o nivel de obesidade/peso
 | `Obesity_Type_II` | Obesidade tipo II |
 | `Obesity_Type_III` | Obesidade tipo III |
 
-## Atributos Criados na Pipeline
+## Atributos Criados nos Experimentos
+
+`BMI`, `BMI_Class` e `Weight_Class` foram avaliados, mas não são utilizados pelo modelo preventivo publicado.
 
 | Atributo | Origem | Observação |
 |---|---|---|

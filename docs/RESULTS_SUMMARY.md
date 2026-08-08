@@ -29,10 +29,10 @@ Metricas finais:
 
 | Metrica | Valor |
 |---|---:|
-| Acurácia | 0.9785 |
-| Precisão macro | 0.9790 |
-| Revocação macro | 0.9770 |
-| F1 macro | 0.9775 |
+| Acurácia | 0.8445 |
+| Precisão macro | 0.8429 |
+| Revocação macro | 0.8408 |
+| F1 macro | 0.8410 |
 
 ## Otimização
 
@@ -46,7 +46,7 @@ Foram avaliados cenarios para medir impacto das variaveis redundantes:
 - Sem atributos derivados redundantes: F1 macro médio 0.9627.
 - Modelo preventivo/comportamental sem `Weight`: F1 macro medio 0.8791.
 
-Conclusao: a performance permanece acima de 75% mesmo no cenario preventivo, mas o modelo completo e mais adequado para classificacao clinica baseada em informacoes antropometricas.
+Conclusão: o cenário preventivo permanece acima de 75% e foi adotado como modelo publicado. Ele é mais adequado ao objetivo de analisar tendências sem peso, altura ou IMC, mas não representa previsão longitudinal nem diagnóstico.
 
 ## Artefatos
 

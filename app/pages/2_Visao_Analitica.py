@@ -64,6 +64,44 @@ def traduzir_dataframe(base: pd.DataFrame) -> pd.DataFrame:
     return exibicao
 
 
+def categorizar_habito(base: pd.DataFrame, coluna: str) -> pd.Series:
+    if coluna == "FAF":
+        return pd.cut(
+            base[coluna], [-0.01, 0.99, 1.99, 3],
+            labels=["Baixa", "Moderada", "Alta"],
+        )
+    if coluna == "CH2O":
+        return pd.cut(
+            base[coluna], [0.99, 1.66, 2.33, 3],
+            labels=["Baixo", "Intermediário", "Alto"],
+        )
+    if coluna == "FCVC":
+        return pd.cut(
+            base[coluna], [0.99, 1.66, 2.33, 3],
+            labels=["Baixa", "Intermediária", "Alta"],
+        )
+    if coluna == "TUE":
+        return pd.cut(
+            base[coluna], [-0.01, 0.66, 1.33, 2],
+            labels=["Baixo", "Intermediário", "Alto"],
+        )
+    return base[coluna].map(lambda valor: ROTULOS_VALORES.get(str(valor), str(valor)))
+
+
+def resumo_habito_por_grupo(base: pd.DataFrame, coluna: str, grupo: str) -> pd.DataFrame:
+    dados = base.copy()
+    dados["Categoria do hábito"] = categorizar_habito(dados, coluna)
+    dados["Com obesidade"] = dados[TARGET_COLUMN].isin(CLASSES_OBESIDADE)
+    resumo = (
+        dados.groupby([grupo, "Categoria do hábito"], observed=True)
+        .agg(Registros=(TARGET_COLUMN, "size"), Taxa_obesidade=("Com obesidade", "mean"))
+        .reset_index()
+    )
+    resumo["Taxa de obesidade (%)"] = resumo.pop("Taxa_obesidade") * 100
+    resumo[grupo] = resumo[grupo].map(lambda valor: ROTULOS_VALORES.get(str(valor), str(valor)))
+    return resumo.rename(columns={grupo: ROTULOS_COLUNAS.get(grupo, grupo)})
+
+
 try:
     df = load_obesity_data(RAW_DATA_PATH).drop_duplicates().reset_index(drop=True)
 except Exception as exc:
@@ -124,8 +162,8 @@ st.caption(
     "Os achados apoiam a triagem, mas não substituem anamnese, exame físico ou julgamento clínico."
 )
 
-tab_resumo, tab_perfil, tab_habitos, tab_dados = st.tabs(
-    ["Visão executiva", "Perfil antropométrico", "Hábitos e contexto", "Dados da população"]
+tab_resumo, tab_recortes, tab_perfil, tab_habitos, tab_dados = st.tabs(
+    ["Visão executiva", "Gênero e idade", "Perfil antropométrico", "Hábitos e contexto", "Dados da população"]
 )
 
 with tab_resumo:
@@ -192,6 +230,170 @@ with tab_resumo:
     )
     st.caption(
         "Comparações descritivas calculadas na base completa. Diferenças em pontos percentuais indicam associação observada, não causalidade."
+    )
+
+with tab_recortes:
+    st.subheader("Distribuição dos níveis de peso por gênero")
+    distribuicao_genero = (
+        pd.crosstab(df_filtrado["Gender"], df_filtrado[TARGET_COLUMN], normalize="index")
+        .reindex(columns=CLASS_ORDER, fill_value=0)
+        .mul(100)
+    )
+    distribuicao_genero.index = [ROTULOS_VALORES.get(valor, valor) for valor in distribuicao_genero.index]
+    distribuicao_genero.columns = [CLASS_LABELS_PT[coluna] for coluna in distribuicao_genero.columns]
+    fig, ax = plt.subplots(figsize=(11, 4.5))
+    distribuicao_genero.plot(kind="barh", stacked=True, ax=ax, color=CORES_CLASSES)
+    ax.set_xlabel("Composição dentro de cada gênero (%)")
+    ax.set_ylabel("Gênero")
+    ax.set_xlim(0, 100)
+    ax.legend(title="Nível de peso", bbox_to_anchor=(1.02, 1), loc="upper left")
+    ax.spines[["top", "right"]].set_visible(False)
+    plt.tight_layout()
+    st.pyplot(fig)
+
+    st.subheader("Distribuição dos níveis de peso por faixa etária")
+    distribuicao_idade = (
+        pd.crosstab(df_filtrado["Faixa etária"], df_filtrado[TARGET_COLUMN], normalize="index")
+        .reindex(columns=CLASS_ORDER, fill_value=0)
+        .mul(100)
+    )
+    distribuicao_idade.columns = [CLASS_LABELS_PT[coluna] for coluna in distribuicao_idade.columns]
+    fig, ax = plt.subplots(figsize=(11, 5.5))
+    distribuicao_idade.plot(kind="barh", stacked=True, ax=ax, color=CORES_CLASSES)
+    ax.set_xlabel("Composição dentro de cada faixa etária (%)")
+    ax.set_ylabel("Faixa etária")
+    ax.set_xlim(0, 100)
+    ax.legend(title="Nível de peso", bbox_to_anchor=(1.02, 1), loc="upper left")
+    ax.spines[["top", "right"]].set_visible(False)
+    plt.tight_layout()
+    st.pyplot(fig)
+
+    st.subheader("Onde a obesidade está mais concentrada na base")
+    analise = df_filtrado.assign(
+        Com_obesidade=df_filtrado[TARGET_COLUMN].isin(CLASSES_OBESIDADE),
+        Com_excesso=df_filtrado[TARGET_COLUMN].isin(CLASSES_EXCESSO),
+    )
+    resumo_genero = (
+        analise.groupby("Gender", observed=True)
+        .agg(Registros=(TARGET_COLUMN, "size"), Obesidade=("Com_obesidade", "mean"), Excesso=("Com_excesso", "mean"))
+        .reset_index()
+        .rename(columns={"Gender": "Grupo"})
+    )
+    resumo_genero.insert(0, "Recorte", "Gênero")
+    resumo_genero["Grupo"] = resumo_genero["Grupo"].map(ROTULOS_VALORES)
+    resumo_idade = (
+        analise.groupby("Faixa etária", observed=True)
+        .agg(Registros=(TARGET_COLUMN, "size"), Obesidade=("Com_obesidade", "mean"), Excesso=("Com_excesso", "mean"))
+        .reset_index()
+        .rename(columns={"Faixa etária": "Grupo"})
+    )
+    resumo_idade.insert(0, "Recorte", "Faixa etária")
+    sensibilidade = pd.concat([resumo_genero, resumo_idade], ignore_index=True)
+    sensibilidade["Obesidade (%)"] = sensibilidade.pop("Obesidade") * 100
+    sensibilidade["Sobrepeso ou obesidade (%)"] = sensibilidade.pop("Excesso") * 100
+
+    maior_genero = resumo_genero.loc[resumo_genero["Obesidade"].idxmax()]
+    maior_idade = resumo_idade.loc[resumo_idade["Obesidade"].idxmax()]
+    menor_grupo = sensibilidade.loc[sensibilidade["Registros"].idxmin()]
+    s1, s2, s3 = st.columns(3)
+    s1.metric(
+        "Maior taxa por gênero",
+        str(maior_genero["Grupo"]),
+        f"{maior_genero['Obesidade'] * 100:.1f}% com obesidade",
+        delta_color="off",
+    )
+    s2.metric(
+        "Maior taxa por idade",
+        str(maior_idade["Grupo"]),
+        f"{maior_idade['Obesidade'] * 100:.1f}% com obesidade",
+        delta_color="off",
+    )
+    s3.metric(
+        "Menor representação",
+        str(menor_grupo["Grupo"]),
+        f"{int(menor_grupo['Registros'])} registros",
+        delta_color="off",
+    )
+    st.dataframe(
+        sensibilidade.style.format(
+            {"Obesidade (%)": "{:.1f}", "Sobrepeso ou obesidade (%)": "{:.1f}"}
+        ),
+        use_container_width=True,
+        hide_index=True,
+    )
+    botao_download_csv(
+        sensibilidade,
+        "sensibilidade_genero_faixa_etaria.csv",
+        key="download_sensibilidade_demografica",
+    )
+
+    st.subheader("Associação dos hábitos com obesidade")
+    habito_recorte = st.selectbox(
+        "Hábito para comparar por gênero e idade",
+        ["family_history", "FAVC", "FCVC", "FAF", "CH2O", "TUE", "CAEC"],
+        format_func=lambda coluna: ROTULOS_COLUNAS[coluna],
+        key="habito_recortes",
+    )
+    habito_genero = resumo_habito_por_grupo(df_filtrado, habito_recorte, "Gender")
+    habito_idade = resumo_habito_por_grupo(df_filtrado, habito_recorte, "Faixa etária")
+
+    grafico_genero, grafico_idade = st.columns(2)
+    with grafico_genero:
+        pivot_genero = habito_genero.pivot(
+            index="Categoria do hábito", columns="Gênero", values="Taxa de obesidade (%)"
+        )
+        fig, ax = plt.subplots(figsize=(8, 5))
+        pivot_genero.plot(kind="bar", ax=ax, color=["#B14A77", "#4C78A8"])
+        ax.set_title(f"{ROTULOS_COLUNAS[habito_recorte]} por gênero")
+        ax.set_xlabel(ROTULOS_COLUNAS[habito_recorte])
+        ax.set_ylabel("Pessoas com obesidade (%)")
+        ax.tick_params(axis="x", rotation=25)
+        ax.legend(title="Gênero")
+        ax.spines[["top", "right"]].set_visible(False)
+        plt.tight_layout()
+        st.pyplot(fig)
+    with grafico_idade:
+        pivot_idade = habito_idade.pivot(
+            index="Categoria do hábito", columns="Faixa etária", values="Taxa de obesidade (%)"
+        )
+        fig, ax = plt.subplots(figsize=(8, 5))
+        pivot_idade.plot(kind="bar", ax=ax, colormap="viridis")
+        ax.set_title(f"{ROTULOS_COLUNAS[habito_recorte]} por idade")
+        ax.set_xlabel(ROTULOS_COLUNAS[habito_recorte])
+        ax.set_ylabel("Pessoas com obesidade (%)")
+        ax.tick_params(axis="x", rotation=25)
+        ax.legend(title="Faixa etária", fontsize=8)
+        ax.spines[["top", "right"]].set_visible(False)
+        plt.tight_layout()
+        st.pyplot(fig)
+
+    with st.expander("Ver tabelas detalhadas dos hábitos"):
+        st.markdown("**Comparação por gênero**")
+        st.dataframe(
+            habito_genero.style.format({"Taxa de obesidade (%)": "{:.1f}"}),
+            use_container_width=True,
+            hide_index=True,
+        )
+        botao_download_csv(
+            habito_genero,
+            f"habito_{habito_recorte}_por_genero.csv",
+            key=f"download_habito_genero_{habito_recorte}",
+        )
+        st.markdown("**Comparação por faixa etária**")
+        st.dataframe(
+            habito_idade.style.format({"Taxa de obesidade (%)": "{:.1f}"}),
+            use_container_width=True,
+            hide_index=True,
+        )
+        botao_download_csv(
+            habito_idade,
+            f"habito_{habito_recorte}_por_idade.csv",
+            key=f"download_habito_idade_{habito_recorte}",
+        )
+
+    st.warning(
+        "Sensibilidade, nesta seção, indica concentração e diferença entre grupos da base. "
+        "Os resultados são descritivos, dependem do tamanho de cada grupo e não demonstram causalidade."
     )
 
 with tab_perfil:

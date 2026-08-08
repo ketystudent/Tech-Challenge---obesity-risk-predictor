@@ -1,10 +1,10 @@
 # Preditor de Risco de Obesidade
 
-Aplicação de aprendizado de máquina para prever o nível de obesidade a partir de dados clínicos e hábitos de vida. O projeto foi estruturado para atender ao Tech Challenge FIAP, com pipeline reproduzível, modelo serializado, painel analítico e aplicação preditiva em Streamlit.
+Aplicação de aprendizado de máquina para estimar tendências associadas aos níveis de obesidade a partir de histórico e hábitos de vida. O projeto foi estruturado para atender ao Tech Challenge FIAP, com pipeline reproduzível, modelo serializado, painel analítico e aplicação em Streamlit.
 
 ## Problema de Negocio
 
-Um hospital deseja apoiar a equipe medica na triagem e identificacao de risco relacionado a obesidade. A solucao usa informacoes pessoais, medidas antropometricas e habitos de vida para classificar o paciente em uma das classes de peso/obesidade.
+Um hospital deseja apoiar a equipe médica na triagem de tendências relacionadas à obesidade. A solução final usa informações pessoais, histórico familiar e hábitos de vida, sem peso, altura ou IMC, evitando reproduzir diretamente a classificação antropométrica atual.
 
 Este sistema e uma ferramenta educacional de apoio a decisao e nao substitui avaliacao medica.
 
@@ -43,7 +43,7 @@ Veja o dicionario em [docs/DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md).
 
 ## Pipeline
 
-A pipeline final contem:
+A pipeline preventiva final contém:
 
 1. Engenharia de atributos com transformadores compatíveis com Scikit-Learn.
 2. `ColumnTransformer` para numericas e categoricas.
@@ -53,10 +53,7 @@ A pipeline final contem:
 
 Atributos criados:
 
-- `BMI`
-- `BMI_Class`
 - `Faixa_Etaria`
-- `Weight_Class`
 - `Active_Lifestyle`
 - `Healthy_Diet`
 - `Good_Hydration`
@@ -71,10 +68,10 @@ Metricas no conjunto de teste:
 
 | Metrica | Valor |
 |---|---:|
-| Acurácia | 0.9785 |
-| Precisão macro | 0.9790 |
-| Revocação macro | 0.9770 |
-| F1 macro | 0.9775 |
+| Acurácia | 0.8445 |
+| Precisão macro | 0.8429 |
+| Revocação macro | 0.8408 |
+| F1 macro | 0.8410 |
 
 O requisito minimo do desafio era assertividade acima de 75%, portanto o modelo atende ao criterio.
 
@@ -95,10 +92,10 @@ python scripts/tune_models.py --n-iter 8 --cv 3
 
 Resultados importantes:
 
-- Modelo completo: F1 macro medio 0.9868.
+- Modelo completo antropométrico: F1 macro médio 0.9868 (referência experimental).
 - Sem atributos derivados redundantes: F1 macro médio 0.9627.
 - Modelo preventivo/comportamental: F1 macro medio 0.8791.
-- Modelo tunado: F1 macro em teste 0.9749, nao superou o modelo final.
+- Modelo preventivo publicado, sem peso e altura: F1 macro em teste 0.8410.
 
 Resumo em [docs/RESULTS_SUMMARY.md](docs/RESULTS_SUMMARY.md).
 
@@ -150,16 +147,14 @@ models/final_pipeline.joblib
 models/label_encoder.joblib
 models/metrics.json
 models/model_metadata.json
-models/tuned_pipeline.joblib
-models/tuned_metrics.json
 ```
 
 ## Limitacoes
 
-- O alvo possui forte relacao com peso, altura e IMC.
-- O modelo completo pode refletir diretamente regras antropometricas.
-- Tambem foi avaliado um cenario preventivo/comportamental, com menor desempenho, mas ainda acima do criterio minimo.
-- O resultado deve ser interpretado como apoio analitico, nao como diagnostico medico.
+- O alvo original possui forte relação com peso, altura e IMC, mas essas variáveis não entram no modelo publicado.
+- A base não acompanha pessoas ao longo do tempo; portanto, a saída é uma associação de tendência, não uma previsão causal futura.
+- O cenário preventivo tem menor desempenho que o antropométrico, mas permanece acima do critério mínimo.
+- O resultado deve ser interpretado como apoio preventivo, não como diagnóstico médico.
 
 ## Links de Entrega
 

@@ -120,16 +120,32 @@ def compare_models(
     return pd.DataFrame(rows).sort_values("f1_macro_mean", ascending=False).reset_index(drop=True)
 
 
-def train_and_save_final_model(df: pd.DataFrame, include_bmi: bool = True):
+def train_and_save_final_model(
+    df: pd.DataFrame,
+    include_bmi: bool = False,
+    include_behavioral_features: bool = True,
+    include_age_group: bool = True,
+    include_weight_class: bool = False,
+    excluded_columns: list[str] | None = None,
+):
+    if excluded_columns is None:
+        excluded_columns = ["Weight", "Height"]
     X, y_raw = split_features_target(df)
     y, label_encoder = encode_target(y_raw)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, stratify=y, random_state=RANDOM_STATE
     )
 
-    comparison = compare_models(X_train, y_train, include_bmi=include_bmi)
+    pipeline_params = {
+        "include_bmi": include_bmi,
+        "include_behavioral_features": include_behavioral_features,
+        "include_age_group": include_age_group,
+        "include_weight_class": include_weight_class,
+        "excluded_columns": excluded_columns,
+    }
+    comparison = compare_models(X_train, y_train, **pipeline_params)
     winner_name = comparison.iloc[0]["model"]
-    pipeline = build_model_pipeline(candidate_models()[winner_name], include_bmi=include_bmi)
+    pipeline = build_model_pipeline(candidate_models()[winner_name], **pipeline_params)
     pipeline.fit(X_train, y_train)
 
     y_pred = pipeline.predict(X_test)
@@ -142,6 +158,8 @@ def train_and_save_final_model(df: pd.DataFrame, include_bmi: bool = True):
     )
     metrics["winner"] = winner_name
     metrics["include_bmi"] = include_bmi
+    metrics["excluded_columns"] = excluded_columns
+    metrics["model_purpose"] = "preventive_behavioral_tendency"
     metrics["comparison"] = comparison.to_dict(orient="records")
 
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
@@ -156,6 +174,10 @@ def train_and_save_final_model(df: pd.DataFrame, include_bmi: bool = True):
                 "classes": list(label_encoder.classes_),
                 "model_name": winner_name,
                 "include_bmi": include_bmi,
+                "include_weight_class": include_weight_class,
+                "include_behavioral_features": include_behavioral_features,
+                "excluded_columns": excluded_columns,
+                "model_purpose": "preventive_behavioral_tendency",
             },
             indent=2,
         ),

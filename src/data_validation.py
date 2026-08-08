@@ -1,6 +1,12 @@
 import pandas as pd
 
-from src.config import CATEGORICAL_COLUMNS, EXPECTED_COLUMNS, NUMERIC_COLUMNS, TARGET_COLUMN
+from src.config import (
+    CATEGORICAL_COLUMNS,
+    EXPECTED_COLUMNS,
+    NUMERIC_COLUMNS,
+    PREVENTIVE_INPUT_COLUMNS,
+    TARGET_COLUMN,
+)
 
 
 def validate_schema(df: pd.DataFrame) -> None:
@@ -10,7 +16,7 @@ def validate_schema(df: pd.DataFrame) -> None:
 
 
 def validate_input_frame(df: pd.DataFrame, require_target: bool = False) -> None:
-    required = EXPECTED_COLUMNS if require_target else [c for c in EXPECTED_COLUMNS if c != TARGET_COLUMN]
+    required = EXPECTED_COLUMNS if require_target else PREVENTIVE_INPUT_COLUMNS
     missing = [column for column in required if column not in df.columns]
     if missing:
         raise ValueError(f"Campos de entrada obrigatórios ausentes: {missing}")
